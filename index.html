@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Flyer Map">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2318201C'/%3E%3Crect x='7' y='8' width='18' height='17' rx='3' fill='%23FFE04A'/%3E%3Ctext x='16' y='21.5' font-family='Arial' font-weight='700' font-size='11' text-anchor='middle' fill='%2318201C'%3E14%3C/text%3E%3C/svg%3E">
+<script src="backend.js"></script>
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
@@ -308,6 +309,7 @@ path.ring-fill { fill: var(--hl); fill-opacity: .07; stroke: none; }
             <button class="btn" id="round-btn" type="button">Start a new round</button>
           </div>
           <div id="round-confirm" hidden></div>
+          <div id="site-extra"></div>
           <p id="round-info"></p>
           <p id="mode-info"></p>
           <p>Elevators are estimated from floor counts on OpenStreetMap: 5 storeys or more counts as "likely". When staff mark a building as having an elevator or not, that answer replaces the estimate for everyone.</p>
@@ -439,10 +441,10 @@ async function save(kind, id, data, del) {
     renderAll();
     try { await dbWrite(path, data, del); }
     catch (e) {
-      if (e && (e.code === 'invalid_argument' || e.code === 'not_granted' || e.code === 'revoked')) {
+      if (e && (e.code === 'invalid_argument' || e.code === 'not_granted' || e.code === 'revoked' || e.code === 'permission-denied')) {
         setMode('readonly');
         saveLocalOnly(kind, id, data, del);
-        toast("This account can't change the team's data, so that was saved on this phone only.");
+        toast(SITE ? "The team database refused that change, so it was saved on this phone only." : "This account can't change the team's data, so that was saved on this phone only.");
       } else if (e && e.code === 'quota_exceeded') {
         toast('The shared storage is full. Remove some added buildings and try again.');
       } else {
@@ -469,31 +471,42 @@ function setMode(m) {
   $('span', el).textContent = {
     pending: 'Connecting…', shared: 'Team sync on', readonly: 'View-only team data', local: 'Saved on this phone',
   }[m];
-  $('#mode-info').textContent = {
+  $('#mode-info').textContent = (SITE && SITE.modeText && SITE.modeText[m] != null ? SITE.modeText : {
     pending: '',
     shared: 'Marks and notes are shared with everyone who has this link, and update live.',
     readonly: "You can see the team's marks, but your own marks are saved on this phone only. Ask the owner to invite you as an editor to share them.",
     local: window.claude
       ? 'Marks are saved on this phone only. To share progress with the team, open the link while signed in to claude.ai with editor access.'
       : 'Marks are saved on this device only, so each phone keeps its own list.',
-  }[m];
-  el.title = {
+  })[m];
+  el.title = SITE ? '' : {
     shared: 'Everyone with access sees the same marks and notes, updated live.',
     readonly: 'You can see what the team has done. To share your own marks, ask the owner to invite you as an editor.',
     local: 'Open the shared link while signed in to claude.ai to sync progress with the team.',
   }[m] || '';
+  if (SITE && SITE.render) { try { SITE.render($('#site-extra'), m); } catch (e) { console.error(e); } }
   renderAll();
 }
 
+// The public website (not the Claude page) plugs in its own team database here: see backend.js.
+const SITE = window.FLYER_SITE || null;
+
 async function initStore() {
-  const use = name => (window.claude && typeof window.claude.use === 'function') ? window.claude.use(name).catch(() => null) : Promise.resolve(null);
-  const [db, user] = await Promise.all([use('db'), use('user')]);
-  S.user = user;
-  if (user) { try { S.meId = await user.id(); } catch {} }
+  let db = null, user = null;
+  if (SITE) {
+    const r = await SITE.connect().catch(e => { console.error(e); return null; });
+    if (r) { db = r.db || null; user = r.user || null; S.meId = r.meId || null; }
+    S.user = user;
+  } else {
+    const use = name => (window.claude && typeof window.claude.use === 'function') ? window.claude.use(name).catch(() => null) : Promise.resolve(null);
+    [db, user] = await Promise.all([use('db'), use('user')]);
+    S.user = user;
+    if (user) { try { S.meId = await user.id(); } catch {} }
+  }
   if (!db) { setMode('local'); return; }
   S.db = db;
   let canWrite = null;
-  if (user) { try { canWrite = await user.can('data.write'); } catch {} }
+  if (user && !SITE) { try { canWrite = await user.can('data.write'); } catch {} }
   setMode(canWrite === false ? 'readonly' : 'shared');
   const onErr = () => { if (S.mode !== 'local') { toast('Lost the connection to team progress. Reload the page to reconnect.'); } };
   db.collection('buildings').limit(1000).onSnapshot(snap => {
@@ -1117,7 +1130,9 @@ function toast(msg) {
 let rafPending = false;
 function renderAll() {
   if (rafPending) return; rafPending = true;
-  requestAnimationFrame(() => {
+  let ran = false;
+  const run = () => {
+    if (ran) return; ran = true;
     rafPending = false;
     if (S.mode !== 'pending' && ITEMS.length) rebuildCustom();
     for (const it of ITEMS) styleLayers(it);
@@ -1128,7 +1143,9 @@ function renderAll() {
       const typing = ae && ae.id === 'note' && ae.value !== ae.dataset.orig;
       if (!typing) renderDetail();
     }
-  });
+  };
+  requestAnimationFrame(run);
+  setTimeout(run, 120);   // background tabs pause animation frames; render anyway
 }
 new ResizeObserver(() => {
   map.invalidateSize({ pan: false });
