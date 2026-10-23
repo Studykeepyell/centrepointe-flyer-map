@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Apartment buildings with elevators near 261 Centrepointe Dr, Ottawa, for flyer delivery.">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181E1A" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Flyer Map">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2318201C'/%3E%3Crect x='7' y='8' width='18' height='17' rx='3' fill='%23FFE04A'/%3E%3Ctext x='16' y='21.5' font-family='Arial' font-weight='700' font-size='11' text-anchor='middle' fill='%2318201C'%3E14%3C/text%3E%3C/svg%3E">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Centrepointe Flyer Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="leaflet.css">
+<style>
+/* Layout: one-screen field tool. Header bar on top, the map fills the rest; the list/detail panel docks left on
+   desktop and slides up from the bottom on phones. Look: a paper street map marked up with highlighter and ballpoint. */
+:root {
+  --paper: #F2F4F0; --surface: #FFFFFF; --raised: #FFFFFF;
+  --ink: #18201C; --ink-2: #545F58; --ink-3: #848E87; --line: #DADFD8; --on-strong: #FFFFFF;
+  --hl: #FFE04A; --hl-edge: #8F7700; --hl-ink: #2A2300;
+  --select: #2450D8; --done: #1F8655; --done-soft: #D4EEDD; --check: #C9731C; --check-soft: #FCEBD5;
+  --stop: #BF3B33; --stop-soft: #F7DCD8; --skip: #C5C9C1; --shadow-c: rgb(18 28 22 / .16);
+  --m-land: #ECEEE8; --m-bld: #D9DCD3; --m-bld-edge: #C3C7BC; --m-road: #FFFFFF; --m-major: #FFFFFF;
+  --m-casing: #D0D4CC; --m-major-casing: #ABB2A7; --m-path: #9DA698; --m-water: #B4CFE1; --m-park: #D2E4C7;
+  --m-wood: #C2D9B4; --m-grass: #DAE9D1; --m-pitch: #C9E0BC; --m-rail: #959D94; --m-label: #434D47; --m-halo: #F2F4F0;
+  --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --peek: 118px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #111613; --surface: #181E1A; --raised: #202722;
+  --ink: #E5EBE6; --ink-2: #A1ACA5; --ink-3: #737E77; --line: #2A322D; --on-strong: #0D120F;
+  --hl: #F6DA3C; --hl-edge: #F6DA3C; --hl-ink: #1B1700;
+  --select: #8AAAFF; --done: #4CC48A; --done-soft: #183727; --check: #F0A24A; --check-soft: #3A2A15;
+  --stop: #EF7268; --stop-soft: #3E1E1B; --skip: #3A423D; --shadow-c: rgb(0 0 0 / .5);
+  --m-land: #161B18; --m-bld: #272F2A; --m-bld-edge: #333C36; --m-road: #3A433D; --m-major: #535D56;
+  --m-casing: #1E2420; --m-major-casing: #121714; --m-path: #49524C; --m-water: #1A3040; --m-park: #1B291E;
+  --m-wood: #19271B; --m-grass: #1C291F; --m-pitch: #1E2D1D; --m-rail: #4B544E; --m-label: #AAB5AE; --m-halo: #161B18;
+  color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --paper: #111613; --surface: #181E1A; --raised: #202722;
+  --ink: #E5EBE6; --ink-2: #A1ACA5; --ink-3: #737E77; --line: #2A322D; --on-strong: #0D120F;
+  --hl: #F6DA3C; --hl-edge: #F6DA3C; --hl-ink: #1B1700;
+  --select: #8AAAFF; --done: #4CC48A; --done-soft: #183727; --check: #F0A24A; --check-soft: #3A2A15;
+  --stop: #EF7268; --stop-soft: #3E1E1B; --skip: #3A423D; --shadow-c: rgb(0 0 0 / .5);
+  --m-land: #161B18; --m-bld: #272F2A; --m-bld-edge: #333C36; --m-road: #3A433D; --m-major: #535D56;
+  --m-casing: #1E2420; --m-major-casing: #121714; --m-path: #49524C; --m-water: #1A3040; --m-park: #1B291E;
+  --m-wood: #19271B; --m-grass: #1C291F; --m-pitch: #1E2D1D; --m-rail: #4B544E; --m-label: #AAB5AE; --m-halo: #161B18;
+  color-scheme: dark;
+}
+
+[hidden] { display: none !important; }
+html { box-sizing: border-box; height: 100%; }
+*, *::before, *::after { box-sizing: inherit; }
+body { height: 100%; margin: 0; overflow: hidden; background: var(--paper); color: var(--ink);
+  font: 15px/1.45 var(--f-body); -webkit-text-size-adjust: 100%; }
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2.5px solid var(--select); outline-offset: 2px; }
+a { color: var(--select); }
+
+.app { height: 100%; display: flex; flex-direction: column; }
+
+/* header */
+.bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--surface); border-bottom: 1px solid var(--line); position: relative; z-index: 3; }
+.brand { display: flex; align-items: baseline; gap: 10px; min-width: 0; flex-wrap: wrap; row-gap: 0; }
+.mark { font-family: var(--f-display); font-weight: 800; font-stretch: 125%; font-size: 19px; letter-spacing: .01em;
+  text-transform: uppercase; line-height: 1.1; white-space: nowrap; }
+.mark span { background: linear-gradient(transparent 52%, var(--hl) 52%, var(--hl) 92%, transparent 92%); padding: 0 2px; }
+.sub { color: var(--ink-2); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.sync { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--ink-2); white-space: nowrap; flex: none; }
+.sync i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); flex: none; }
+.sync[data-mode="shared"] i { background: var(--done); box-shadow: 0 0 0 3px var(--done-soft); }
+.sync[data-mode="local"] i, .sync[data-mode="readonly"] i { background: var(--check); }
+
+/* main area */
+.main { flex: 1; min-height: 0; position: relative; }
+.mapwrap { position: absolute; inset: 0; isolation: isolate; z-index: 0; }
+#map { position: absolute; inset: 0; background: var(--m-land); }
+.leaflet-container { font-family: var(--f-body); background: var(--m-land); }
+.leaflet-container a { color: var(--select); }
+.leaflet-control-attribution { background: color-mix(in srgb, var(--surface) 82%, transparent) !important; color: var(--ink-2); font-size: 10.5px; }
+.leaflet-bar a { background: var(--raised); color: var(--ink); border-bottom-color: var(--line); }
+.leaflet-bar a:hover { background: var(--paper); }
+.leaflet-bar { border: 1px solid var(--line) !important; box-shadow: 0 2px 8px var(--shadow-c) !important; }
+
+/* floating map controls */
+.mapctl { position: absolute; z-index: 1001; top: 10px; left: max(10px, env(safe-area-inset-left, 0px)); right: max(10px, env(safe-area-inset-right, 0px));
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; pointer-events: none; }
+.mapctl > * { pointer-events: auto; }
+.seg { display: inline-flex; background: var(--raised); border: 1px solid var(--line); border-radius: 999px; padding: 3px;
+  box-shadow: 0 2px 10px var(--shadow-c); }
+.seg button { border: 0; background: transparent; border-radius: 999px; padding: 6px 12px; font: 700 13px/1 var(--f-display);
+  font-stretch: 100%; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.seg button[aria-checked="true"] { background: var(--ink); color: var(--paper); }
+.ctlstack { display: flex; gap: 6px; }
+.chip { border: 1px solid var(--line); background: var(--raised); border-radius: 999px; padding: 7px 12px; display: inline-flex; align-items: center; gap: 6px;
+  font: 700 13px/1 var(--f-display); box-shadow: 0 2px 10px var(--shadow-c); color: var(--ink); }
+.chip svg { width: 15px; height: 15px; }
+.legend { position: absolute; z-index: 1001; top: 56px; right: max(10px, env(safe-area-inset-right, 0px)); width: 248px; max-width: calc(100% - 20px);
+  background: var(--raised); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; box-shadow: 0 6px 24px var(--shadow-c); font-size: 13px; }
+.legend h3 { margin: 0 0 8px; font: 700 11px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.legend ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.legend li { display: grid; grid-template-columns: 34px 1fr; align-items: center; gap: 8px; }
+.legend .sw { justify-self: center; }
+.legend .blk { width: 26px; height: 16px; border-radius: 3px; background: var(--skip); border: 1px solid var(--m-bld-edge); }
+.legend p { margin: 10px 0 0; color: var(--ink-2); font-size: 12px; line-height: 1.4; }
+.addbar { position: absolute; z-index: 1002; left: 50%; top: 58px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 24px);
+  background: var(--ink); color: var(--paper); border-radius: 12px; padding: 10px 10px 10px 14px; display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 6px 24px var(--shadow-c); font-size: 14px; }
+.addbar button { border: 0; border-radius: 8px; padding: 6px 10px; background: var(--paper); color: var(--ink); font-weight: 700; }
+.loading { position: absolute; z-index: 1001; left: 50%; top: 45%; transform: translate(-50%, -50%); background: var(--raised); border: 1px solid var(--line);
+  padding: 8px 14px; border-radius: 999px; font-size: 13px; color: var(--ink-2); box-shadow: 0 2px 10px var(--shadow-c); }
+.toast { position: absolute; z-index: 1003; left: 50%; bottom: calc(var(--peek) + 14px); transform: translateX(-50%); max-width: calc(100% - 32px);
+  background: var(--ink); color: var(--paper); padding: 10px 14px; border-radius: 10px; font-size: 14px; box-shadow: 0 6px 24px var(--shadow-c); }
+
+/* map overlay: buildings */
+.leaflet-overlay-pane path.b { stroke-linejoin: round; }
+path.b.e-likely { fill: var(--hl); fill-opacity: .94; stroke: var(--hl-edge); stroke-width: 1.4px; }
+path.b.e-check { fill: var(--check-soft); fill-opacity: .92; stroke: var(--check); stroke-width: 1.6px; stroke-dasharray: 4 3; }
+path.b.e-no { fill: var(--skip); fill-opacity: .9; stroke: var(--m-bld-edge); stroke-width: 1px; }
+path.b.s-done { fill: var(--done-soft); stroke: var(--done); stroke-dasharray: none; }
+path.b.s-stop { fill: var(--stop-soft); stroke: var(--stop); stroke-dasharray: none; }
+path.b.far { fill-opacity: .4; stroke-opacity: .45; }
+path.b.sel { stroke: var(--select); stroke-width: 3.2px; stroke-dasharray: none; stroke-opacity: 1; fill-opacity: 1; }
+path.ring { fill: none; stroke: var(--ink-3); stroke-width: 1px; stroke-dasharray: 2 6; }
+path.ring.on { stroke: var(--ink-2); stroke-width: 1.6px; stroke-dasharray: 7 5; }
+path.ring-fill { fill: var(--hl); fill-opacity: .07; stroke: none; }
+
+.tagicon { background: none; border: 0; }
+.tag { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); min-width: 23px; height: 21px; padding: 0 5px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; gap: 2px; font: 800 12.5px/1 var(--f-display); font-stretch: 87%;
+  font-variant-numeric: tabular-nums; background: var(--hl); color: var(--hl-ink); border: 1.5px solid var(--hl-edge);
+  box-shadow: 0 1px 4px var(--shadow-c); cursor: pointer; white-space: nowrap; transition: transform .15s; }
+.tag svg { width: 11px; height: 11px; }
+.tag.e-check { background: var(--surface); color: var(--check); border: 1.5px dashed var(--check); }
+.tag.e-no { background: var(--skip); color: var(--ink-2); border: 1.5px solid var(--m-bld-edge); }
+.tag.s-done { background: var(--done); color: var(--on-strong); border: 1.5px solid var(--done); }
+.tag.s-stop { background: var(--stop); color: var(--on-strong); border: 1.5px solid var(--stop); }
+.tag.far { opacity: .45; }
+.tag.sel { transform: translate(-50%, -50%) scale(1.25); box-shadow: 0 0 0 3px var(--select), 0 2px 8px var(--shadow-c); z-index: 2; }
+.tag.custom::after { content: ""; position: absolute; right: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--select); border: 1.5px solid var(--surface); }
+.ringlbl { background: none; border: 0; }
+.ringlbl span { position: absolute; transform: translate(-50%, -50%); font: 700 11px/1 var(--f-display); color: var(--ink-2); background: var(--m-land);
+  padding: 2px 5px; border-radius: 4px; white-space: nowrap; }
+.resto { background: none; border: 0; }
+.resto .pin { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 0; }
+.resto .dot { position: relative; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--hl); display: grid; place-items: center;
+  border: 3px solid var(--hl); box-shadow: 0 3px 10px var(--shadow-c); flex: none; }
+.resto .dot svg { width: 18px; height: 18px; }
+.resto .lbl { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); padding: 4px 9px 4px 16px; background: var(--ink); color: var(--paper);
+  border-radius: 0 8px 8px 0; font: 700 12px/1.1 var(--f-display); white-space: nowrap; }
+.pending-pin { width: 18px; height: 18px; border-radius: 50%; background: var(--select); border: 3px solid var(--surface); box-shadow: 0 0 0 2px var(--select); transform: translate(-50%, -50%); position: absolute; }
+
+/* panel */
+.panel { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; height: var(--h, var(--peek)); background: var(--surface);
+  border-radius: 16px 16px 0 0; box-shadow: 0 -4px 24px var(--shadow-c); display: flex; flex-direction: column; transition: height .25s ease; }
+.panel[data-size="open"] { --h: 64%; }
+.grip { flex: none; border: 0; background: transparent; padding: 8px 0 4px; display: grid; place-items: center; }
+.grip span { width: 40px; height: 5px; border-radius: 3px; background: var(--line); }
+.view { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  padding: 0 max(16px, env(safe-area-inset-right, 0px)) 20px max(16px, env(safe-area-inset-left, 0px)); }
+.panel[data-size="peek"] .view { overflow: hidden; }
+
+.summary { display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 8px; padding: 4px 0 12px; }
+.stat { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stat b { font: 800 26px/1 var(--f-display); font-stretch: 90%; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.stat span { font-size: 12px; color: var(--ink-2); line-height: 1.25; }
+.stat.hl b { background: linear-gradient(transparent 55%, var(--hl) 55%, var(--hl) 95%, transparent 95%); width: max-content; padding: 0 2px; margin-left: -2px; }
+.scope { font-size: 13px; color: var(--ink-2); margin: -4px 0 12px; }
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: var(--paper); border-radius: 10px; padding: 3px; margin-bottom: 10px; }
+.tabs button { border: 0; background: transparent; border-radius: 8px; padding: 7px 2px; font: 700 12.5px/1.1 var(--f-display); color: var(--ink-2);
+  display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.tabs button b { font-size: 15px; font-variant-numeric: tabular-nums; color: var(--ink); }
+.tabs button[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 4px var(--shadow-c); }
+.search { width: 100%; border: 1px solid var(--line); background: var(--paper); border-radius: 10px; padding: 9px 12px; margin-bottom: 8px; font-size: 16px; }
+.list { list-style: none; margin: 0; padding: 0; }
+.row { width: 100%; border: 0; background: transparent; display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px;
+  padding: 10px 4px; text-align: left; border-bottom: 1px solid var(--line); border-radius: 0; }
+.row:hover { background: var(--paper); }
+.row .tag { position: static; transform: none; justify-self: center; box-shadow: none; }
+.row-main { min-width: 0; display: flex; flex-direction: column; }
+.row-main b { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row-main small, .row-meta small { color: var(--ink-2); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row-meta { text-align: right; display: flex; flex-direction: column; font-variant-numeric: tabular-nums; }
+.row-meta b { font: 700 14px/1.2 var(--f-display); }
+.empty { color: var(--ink-2); padding: 18px 4px; font-size: 14px; }
+.foot { margin-top: 16px; display: grid; gap: 12px; font-size: 13px; color: var(--ink-2); }
+.foot p { margin: 0; }
+.foot .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 14px; font-weight: 700; font-size: 14px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px; text-decoration: none; color: var(--ink); }
+.btn:hover { background: var(--paper); }
+.btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn.primary:hover { filter: brightness(1.15); }
+.btn.go { background: var(--done); border-color: var(--done); color: var(--on-strong); }
+.btn.warn { color: var(--stop); }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.btn svg { width: 16px; height: 16px; flex: none; }
+.btn.wide { width: 100%; }
+.linkbtn { border: 0; background: none; padding: 0; color: var(--select); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+
+/* detail */
+.back { border: 0; background: none; padding: 4px 0 10px; color: var(--ink-2); font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 4px; }
+.kicker { font: 700 11.5px/1.2 var(--f-display); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); display: flex; align-items: center; gap: 8px; }
+.kicker .tag { position: static; transform: none; box-shadow: none; }
+.dtitle { margin: 8px 0 2px; font: 800 24px/1.12 var(--f-display); font-stretch: 92%; text-wrap: balance; letter-spacing: -.005em; }
+.daddr { margin: 0; color: var(--ink-2); font-size: 15px; }
+.drow { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 14px; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 0 0 14px; }
+.facts > div { background: var(--surface); padding: 10px 12px; min-width: 0; }
+.facts > div.full { grid-column: 1 / -1; }
+.facts dt { font-size: 11.5px; color: var(--ink-2); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 2px; }
+.facts dd { margin: 0; font: 700 17px/1.25 var(--f-display); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.facts dd small { display: block; font: 400 12.5px/1.35 var(--f-body); color: var(--ink-2); margin-top: 2px; }
+.facts dd a { font: 700 14px/1.3 var(--f-body); }
+.status { border-radius: 12px; padding: 12px; margin-bottom: 14px; display: grid; gap: 10px; background: var(--paper); }
+.status[data-s="done"] { background: var(--done-soft); }
+.status[data-s="stop"] { background: var(--stop-soft); }
+.status p { margin: 0; font-size: 14px; }
+.status p b { font-weight: 700; }
+.status .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.status .actions .btn { flex: 1 1 auto; }
+.field { display: grid; gap: 6px; margin-bottom: 14px; }
+.field label, .field .lbl { font-size: 12px; font-weight: 700; color: var(--ink-2); letter-spacing: .04em; text-transform: uppercase; }
+.field textarea, .field input, .field select { width: 100%; border: 1px solid var(--line); background: var(--paper); border-radius: 10px; padding: 9px 12px; font-size: 16px; }
+.field textarea { min-height: 76px; resize: vertical; }
+.field .meta { font-size: 12.5px; color: var(--ink-2); display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.radios { display: flex; gap: 8px; flex-wrap: wrap; }
+.radios label { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: 14px;
+  text-transform: none; letter-spacing: 0; color: var(--ink); font-weight: 400; }
+.note { font-size: 13px; color: var(--ink-2); margin: 0 0 12px; }
+.fix { border-top: 1px solid var(--line); padding-top: 12px; font-size: 13.5px; color: var(--ink-2); display: grid; gap: 8px; }
+.fix .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.confirm { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 10px; background: var(--paper); font-size: 14px; }
+.confirm p { margin: 0; }
+.confirm .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.src { font-size: 12px; color: var(--ink-3); margin: 14px 0 0; }
+
+/* phone: hide the map's zoom buttons (pinch works) and lift the attribution above the sheet */
+@media (max-width: 899px) {
+  .leaflet-control-zoom { display: none; }
+  .leaflet-bottom { bottom: var(--peek); }
+  .sub { display: none; }
+}
+@media (max-width: 380px) {
+  .seg button { padding: 6px 9px; }
+  .chip .t { display: none; }
+}
+/* desktop: panel docks left */
+@media (min-width: 900px) {
+  .main { display: grid; grid-template-columns: 384px 1fr; grid-template-rows: minmax(0, 1fr); }
+  .panel { position: relative; height: auto; border-radius: 0; box-shadow: none; border-right: 1px solid var(--line); }
+  .panel[data-size] .view { overflow-y: auto; padding-top: 14px; }
+  .grip { display: none; }
+  .mapwrap { position: relative; }
+  .toast { bottom: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+
+<div class="app">
+  <header class="bar">
+    <div class="brand">
+      <div class="mark"><span>Flyer Map</span></div>
+      <div class="sub">Apartments with elevators near 261 Centrepointe Dr</div>
+    </div>
+    <div class="sync" id="sync" data-mode="pending" role="status"><i></i><span>Connecting…</span></div>
+  </header>
+
+  <div class="main">
+    <aside class="panel" id="panel" data-size="peek" aria-label="Buildings">
+      <button class="grip" id="grip" aria-label="Show the building list" aria-expanded="false"><span></span></button>
+
+      <section class="view" id="v-list">
+        <div class="summary" id="summary">
+          <div class="stat hl"><b id="st-todo">–</b><span>elevator buildings to do</span></div>
+          <div class="stat"><b id="st-done">–</b><span>done this round</span></div>
+          <div class="stat"><b id="st-flyers">–</b><span>flyers needed (estimate)</span></div>
+        </div>
+        <p class="scope" id="scope">Within 2 km of the restaurant</p>
+        <div class="tabs" role="tablist" id="tabs">
+          <button role="tab" data-tab="todo" aria-selected="true"><b id="n-todo">–</b>To do</button>
+          <button role="tab" data-tab="check" aria-selected="false"><b id="n-check">–</b>Check</button>
+          <button role="tab" data-tab="done" aria-selected="false"><b id="n-done">–</b>Done</button>
+          <button role="tab" data-tab="stop" aria-selected="false"><b id="n-stop">–</b>No flyers</button>
+        </div>
+        <input class="search" id="q" type="search" placeholder="Search a street or building" autocomplete="off" aria-label="Search buildings">
+        <ol class="list" id="list"><li class="empty">Loading buildings…</li></ol>
+        <div class="foot">
+          <p id="tabhelp"></p>
+          <div class="actions">
+            <button class="btn" id="add-btn" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Add a missing building</button>
+            <button class="btn" id="round-btn" type="button">Start a new round</button>
+          </div>
+          <div id="round-confirm" hidden></div>
+          <p id="round-info"></p>
+          <p id="mode-info"></p>
+          <p>Elevators are estimated from floor counts on OpenStreetMap: 5 storeys or more counts as "likely". When staff mark a building as having an elevator or not, that answer replaces the estimate for everyone.</p>
+          <p>Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, downloaded Oct 23, 2026.</p>
+        </div>
+      </section>
+
+      <section class="view" id="v-detail" hidden></section>
+      <section class="view" id="v-add" hidden></section>
+    </aside>
+
+    <div class="mapwrap">
+      <div id="map" aria-label="Map of apartment buildings around the restaurant"></div>
+      <div class="mapctl">
+        <div class="seg" role="radiogroup" aria-label="Distance from the restaurant" id="radius">
+          <button role="radio" data-r="1000" aria-checked="false">1 km</button>
+          <button role="radio" data-r="2000" aria-checked="true">2 km</button>
+          <button role="radio" data-r="3000" aria-checked="false">3 km</button>
+        </div>
+        <div class="ctlstack">
+          <button class="chip" id="home-btn" type="button" aria-label="Center on the restaurant">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="8" r="1.8" fill="currentColor"/></svg><span class="t">Restaurant</span></button>
+          <button class="chip" id="key-btn" type="button" aria-expanded="false" aria-controls="legend">Key</button>
+        </div>
+      </div>
+      <div class="legend" id="legend" hidden>
+        <h3>What the colours mean</h3>
+        <ul>
+          <li><span class="sw tag" style="position:static;transform:none">14</span><span>Elevator, drop flyers. The number is the floor count.</span></li>
+          <li><span class="sw tag e-check" style="position:static;transform:none">?</span><span>Not sure. Check for an elevator at the door.</span></li>
+          <li><span class="sw tag s-done" style="position:static;transform:none"><svg viewBox="0 0 12 12"><path d="M2.5 6.4 5 8.8 9.6 3.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Flyers delivered this round</span></li>
+          <li><span class="sw tag s-stop" style="position:static;transform:none">✕</span><span>Building doesn't allow flyers</span></li>
+          <li><span class="sw blk"></span><span>No elevator. Skip it.</span></li>
+        </ul>
+        <p>Dashed rings mark 1, 2 and 3 km from the restaurant.</p>
+      </div>
+      <div class="addbar" id="addbar" hidden><span>Tap the map where the building is</span><button type="button" id="add-cancel">Cancel</button></div>
+      <div class="loading" id="loading">Loading the map…</div>
+      <div class="toast" id="toast" role="status" hidden></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+(() => {
+'use strict';
+
+const R_LAT = 45.33916, R_LON = -75.77170;
+const RESTAURANT = '261 Centrepointe Dr, Ottawa, ON K2G 6E8';
+const $ = (s, el = document) => el.querySelector(s);
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isDesktop = () => matchMedia('(min-width: 900px)').matches;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+/* ------------------------------------------------------------------ per-device prefs */
+const PREF_KEY = 'flyermap.v1.prefs', LOCAL_KEY = 'flyermap.v1.local';
+function readJSON(k, fb) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } }
+function writeJSON(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+const prefs = Object.assign({ radius: 2000, tab: 'todo' }, readJSON(PREF_KEY, {}));
+const savePrefs = () => writeJSON(PREF_KEY, { radius: prefs.radius, tab: prefs.tab });
+
+/* ------------------------------------------------------------------ theme tokens for the canvas base map */
+const TOK = ['m-land','m-bld','m-bld-edge','m-road','m-major','m-casing','m-major-casing','m-path','m-water','m-park','m-wood','m-grass','m-pitch','m-rail','m-label','m-halo'];
+let T = {};
+function readTokens() { const cs = getComputedStyle(document.documentElement); T = {}; for (const n of TOK) T[n] = cs.getPropertyValue('--' + n).trim(); T.font = cs.getPropertyValue('--f-display').trim(); }
+readTokens();
+
+/* ------------------------------------------------------------------ text helpers */
+const ABBR = [[/\bDrive\b/g,'Dr'],[/\bAvenue\b/g,'Ave'],[/\bRoad\b/g,'Rd'],[/\bStreet\b/g,'St'],[/\bCrescent\b/g,'Cres'],[/\bCourt\b/g,'Crt'],
+  [/\bPlace\b/g,'Pl'],[/\bPrivate\b/g,'Pvt'],[/\bBoulevard\b/g,'Blvd'],[/\bParkway\b/g,'Pkwy'],[/\bCircle\b/g,'Cir'],[/\bTerrace\b/g,'Terr'],[/\bLane\b/g,'Ln'],[/\bWest\b/g,'W'],[/\bEast\b/g,'E']];
+const abbr = s => ABBR.reduce((a, [re, r]) => a.replace(re, r), s || '');
+function addrOf(b) {
+  const n = b.num || [];
+  const nums = n.length > 2 ? `${n[0]}–${n[n.length - 1]}` : n.join(' & ');
+  return [nums, abbr(b.street)].filter(Boolean).join(' ') || 'Address not on the map';
+}
+const titleOf = b => b.name || addrOf(b);
+const km = m => m < 1000 ? `${Math.round(m / 10) * 10} m` : `${(m / 1000).toFixed(1)} km`;
+const walkMin = m => Math.max(1, Math.round(m * 1.3 / 80));
+const fmtN = n => n.toLocaleString('en-CA');
+function fmtDay(ms) {
+  if (!ms) return '';
+  const d = new Date(ms), now = new Date();
+  const day = x => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+  const diff = Math.round((day(now) - day(d)) / 864e5);
+  if (diff === 0) return 'today';
+  if (diff === 1) return 'yesterday';
+  return d.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: d.getFullYear() === now.getFullYear() ? undefined : 'numeric' });
+}
+const ICON_ELEV = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2 9.4 5H2.6zM6 10.8 2.6 7h6.8z" fill="currentColor"/></svg>';
+const ICON_CHECK = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.4 5 8.8 9.6 3.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_DIR = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 14.5 8 8 14.5 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 10V8h4M8.6 6.4 10 8 8.6 9.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ICON_COPY = '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+
+/* ------------------------------------------------------------------ data store: shared (db) or this phone only */
+const S = {
+  mode: 'pending',            // pending | shared | readonly | local
+  db: null, user: null, meId: null,
+  remote: { b: {}, custom: {}, round: null },
+  local: Object.assign({ b: {}, custom: {}, round: null }, readJSON(LOCAL_KEY, {})),
+};
+const saveLocal = () => writeJSON(LOCAL_KEY, S.local);
+const newer = (a, c) => !a ? c || null : !c ? a : ((c.updatedAt || 0) > (a.updatedAt || 0) ? c : a);
+
+function docFor(it) {
+  const k = it.custom ? 'custom' : 'b';
+  if (S.mode === 'shared') return S.remote[k][it.id] || (it.custom ? it.src : null);
+  if (S.mode === 'readonly') return newer(S.remote[k][it.id], S.local[k][it.id]) || (it.custom ? it.src : null);
+  return S.local[k][it.id] || (it.custom ? it.src : null);
+}
+function roundStart() {
+  const r = S.mode === 'shared' ? S.remote.round : S.mode === 'readonly' ? newer(S.remote.round, S.local.round) : S.local.round;
+  return r && r.startedAt ? r : null;
+}
+
+const queues = {};
+function dbWrite(path, data, del) {
+  const run = () => del ? S.db.doc(path).delete() : S.db.doc(path).set(data);
+  const p = (queues[path] || Promise.resolve()).then(run, run);
+  queues[path] = p.catch(() => {});
+  return p;
+}
+async function save(kind, id, data, del) {
+  // kind: 'b' | 'custom' | 'round'
+  const path = kind === 'round' ? 'meta/round' : (kind === 'b' ? 'buildings/' : 'custom/') + id;
+  if (S.mode === 'shared') {
+    if (kind === 'round') S.remote.round = data; else if (del) delete S.remote[kind][id]; else S.remote[kind][id] = data;
+    renderAll();
+    try { await dbWrite(path, data, del); }
+    catch (e) {
+      if (e && (e.code === 'invalid_argument' || e.code === 'not_granted' || e.code === 'revoked')) {
+        setMode('readonly');
+        saveLocalOnly(kind, id, data, del);
+        toast("This account can't change the team's data, so that was saved on this phone only.");
+      } else if (e && e.code === 'quota_exceeded') {
+        toast('The shared storage is full. Remove some added buildings and try again.');
+      } else {
+        toast("Couldn't save just now. Check the connection and try again.");
+      }
+    }
+    return;
+  }
+  saveLocalOnly(kind, id, data, del);
+}
+function saveLocalOnly(kind, id, data, del) {
+  if (kind === 'round') S.local.round = data; else if (del) delete S.local[kind][id]; else S.local[kind][id] = data;
+  saveLocal();
+  renderAll();
+}
+function stamp(base, patch) {
+  return Object.assign({}, base || {}, patch, { updatedAt: Date.now(), updatedBy: S.meId || null });
+}
+
+function setMode(m) {
+  S.mode = m;
+  const el = $('#sync');
+  el.dataset.mode = m;
+  $('span', el).textContent = {
+    pending: 'Connecting…', shared: 'Team sync on', readonly: 'View-only team data', local: 'Saved on this phone',
+  }[m];
+  $('#mode-info').textContent = {
+    pending: '',
+    shared: 'Marks and notes are shared with everyone who has this link, and update live.',
+    readonly: "You can see the team's marks, but your own marks are saved on this phone only. Ask the owner to invite you as an editor to share them.",
+    local: window.claude
+      ? 'Marks are saved on this phone only. To share progress with the team, open the link while signed in to claude.ai with editor access.'
+      : 'Marks are saved on this device only, so each phone keeps its own list.',
+  }[m];
+  el.title = {
+    shared: 'Everyone with access sees the same marks and notes, updated live.',
+    readonly: 'You can see what the team has done. To share your own marks, ask the owner to invite you as an editor.',
+    local: 'Open the shared link while signed in to claude.ai to sync progress with the team.',
+  }[m] || '';
+  renderAll();
+}
+
+async function initStore() {
+  const use = name => (window.claude && typeof window.claude.use === 'function') ? window.claude.use(name).catch(() => null) : Promise.resolve(null);
+  const [db, user] = await Promise.all([use('db'), use('user')]);
+  S.user = user;
+  if (user) { try { S.meId = await user.id(); } catch {} }
+  if (!db) { setMode('local'); return; }
+  S.db = db;
+  let canWrite = null;
+  if (user) { try { canWrite = await user.can('data.write'); } catch {} }
+  setMode(canWrite === false ? 'readonly' : 'shared');
+  const onErr = () => { if (S.mode !== 'local') { toast('Lost the connection to team progress. Reload the page to reconnect.'); } };
+  db.collection('buildings').limit(1000).onSnapshot(snap => {
+    const m = {}; for (const d of snap.docs) m[d.id] = d.data(); S.remote.b = m; renderAll();
+  }, onErr);
+  db.collection('custom').limit(1000).onSnapshot(snap => {
+    const m = {}; for (const d of snap.docs) m[d.id] = d.data(); S.remote.custom = m; rebuildCustom(); renderAll();
+  }, onErr);
+  db.doc('meta/round').onSnapshot(d => { S.remote.round = d.exists ? d.data() : null; renderAll(); }, onErr);
+}
+
+/* ------------------------------------------------------------------ the buildings */
+let BUILDINGS = [];        // from buildings.json
+let ITEMS = [];            // buildings + staff-added ones
+const BY_ID = new Map();
+
+function itemFromCustom(id, c) {
+  const dist = Math.round(L.latLng(R_LAT, R_LON).distanceTo([c.lat, c.lng]));
+  return { id, custom: true, src: c, name: c.name || '', num: [], street: c.address || '', postcode: '', floors: c.floors || null,
+    kind: 'apartment', elev: c.elevator === 'no' ? 'no' : 'likely', why: 'Added by staff.', units: c.units || null,
+    dist, c: [c.lat, c.lng], manager: '', phone: '', web: '' };
+}
+function customSource() {
+  if (S.mode === 'shared') return S.remote.custom;
+  if (S.mode === 'readonly') { const m = Object.assign({}, S.remote.custom); for (const [k, v] of Object.entries(S.local.custom)) m[k] = newer(m[k], v); return m; }
+  return S.local.custom;
+}
+
+// effective state for one building
+function eff(it) {
+  const d = docFor(it) || {};
+  let e = it.elev;                                   // likely | unsure | no
+  let confirmed = false;
+  if (it.custom) { e = d.elevator === 'no' ? 'no' : 'likely'; confirmed = true; }
+  else if (d.elevator === 'yes') { e = 'likely'; confirmed = true; }
+  else if (d.elevator === 'no') { e = 'no'; confirmed = true; }
+  const elev = e === 'unsure' ? 'check' : e;         // likely | check | no
+  const r = roundStart();
+  const since = r ? r.startedAt : 0;
+  const done = elev === 'likely' && !!d.doneAt && d.doneAt >= since;
+  const stop = !!d.refused;
+  const status = stop ? 'stop' : done ? 'done' : 'todo';
+  return { d, elev, confirmed, status, far: it.dist > prefs.radius };
+}
+function tabOf(it, f) {
+  if (f.status === 'stop') return 'stop';
+  if (f.elev === 'check') return 'check';
+  if (f.elev === 'no') return null;
+  return f.status === 'done' ? 'done' : 'todo';
+}
+
+/* ------------------------------------------------------------------ map */
+const map = L.map('map', { zoomControl: false, fadeAnimation: false, minZoom: 13, maxZoom: 19, zoomSnap: 0.5, wheelPxPerZoomLevel: 90,
+  maxBounds: L.latLngBounds([R_LAT - 0.045, R_LON - 0.065], [R_LAT + 0.045, R_LON + 0.065]), maxBoundsViscosity: 0.8, attributionControl: true });
+map.attributionControl.setPrefix(false).setPosition('bottomleft').addAttribution('© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors');
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+map.setView([R_LAT, R_LON], 14);
+
+/* --- base map drawn on canvas tiles from basemap.json */
+const W = 256;
+const mxOf = lon => (lon + 180) / 360 * W;
+const myOf = lat => { const s = Math.sin(lat * Math.PI / 180); return (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * W; };
+const CELL = W / 2 ** 15;
+let BASE = null;   // { index: Map, labels: [] }
+
+function buildBase(j) {
+  const [lat0, lon0] = j.origin, SC = j.scale;
+  const dec = a => { const o = new Float64Array(a.length); let x = 0, y = 0;
+    for (let i = 0; i < a.length; i += 2) { x += a[i]; y += a[i + 1]; o[i] = mxOf(lon0 + x / SC); o[i + 1] = myOf(lat0 + y / SC); } return o; };
+  const index = new Map();
+  const add = f => {
+    let a = Infinity, b = Infinity, c = -Infinity, d = -Infinity;
+    for (const r of f.g) for (let i = 0; i < r.length; i += 2) { const x = r[i], y = r[i + 1]; if (x < a) a = x; if (x > c) c = x; if (y < b) b = y; if (y > d) d = y; }
+    f.bb = [a, b, c, d]; f.t = 0;
+    for (let cx = Math.floor(a / CELL); cx <= Math.floor(c / CELL); cx++)
+      for (let cy = Math.floor(b / CELL); cy <= Math.floor(d / CELL); cy++) {
+        const k = cx * 65536 + cy; let cell = index.get(k); if (!cell) index.set(k, cell = []); cell.push(f);
+      }
+  };
+  for (const [k, list] of Object.entries(j.layers)) {
+    const line = k === 'stream' || k === 'rail';
+    for (const g of list) add({ k, line, g: line ? [dec(g)] : g.map(dec) });
+  }
+  for (const [cls, list] of Object.entries(j.roads)) for (const g of list) add({ k: 'road', cls, line: true, g: [dec(g)] });
+  const labels = j.labels.map(([x, y, a, ni, z]) => ({ x: mxOf(lon0 + x / SC), y: myOf(lat0 + y / SC), a, z, t: abbr(j.names[ni]) }));
+  return { index, labels };
+}
+
+let qstamp = 0;
+function query(x0, y0, x1, y1) {
+  qstamp++; const out = [];
+  for (let cx = Math.floor(x0 / CELL); cx <= Math.floor(x1 / CELL); cx++)
+    for (let cy = Math.floor(y0 / CELL); cy <= Math.floor(y1 / CELL); cy++) {
+      const cell = BASE.index.get(cx * 65536 + cy); if (!cell) continue;
+      for (const f of cell) {
+        if (f.t === qstamp) continue; f.t = qstamp;
+        const b = f.bb; if (b[2] < x0 || b[0] > x1 || b[3] < y0 || b[1] > y1) continue;
+        out.push(f);
+      }
+    }
+  return out;
+}
+
+const ROAD_ORDER = ['path', 'service', 'busway', 'residential', 'tertiary', 'secondary', 'primary', 'motorway'];
+const ROAD_W = { motorway: 10, primary: 8.6, secondary: 8, tertiary: 7, residential: 5.4, busway: 3.4, service: 2.8, path: 1.3 };
+const MAJOR = { motorway: 1, primary: 1, secondary: 1, tertiary: 1 };
+
+function drawTile(ctx, co, dpr) {
+  const z = co.z, s = 2 ** z, ox = co.x * W, oy = co.y * W;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.fillStyle = T['m-land']; ctx.fillRect(0, 0, W, W);
+  if (!BASE) return;
+  const pad = 40;
+  const feats = query((ox - pad) / s, (oy - pad) / s, (ox + W + pad) / s, (oy + W + pad) / s);
+  const g = {}; for (const f of feats) { const k = f.k === 'road' ? 'road:' + f.cls : f.k; (g[k] || (g[k] = [])).push(f); }
+  const P = r => { ctx.moveTo(r[0] * s - ox, r[1] * s - oy); for (let i = 2; i < r.length; i += 2) ctx.lineTo(r[i] * s - ox, r[i + 1] * s - oy); };
+  const polys = (k, fill, edge, lw) => {
+    const L = g[k]; if (!L) return;
+    ctx.fillStyle = fill; ctx.beginPath();
+    for (const f of L) { if (f.g.length > 1) continue; P(f.g[0]); ctx.closePath(); }
+    ctx.fill();
+    if (edge) { ctx.strokeStyle = edge; ctx.lineWidth = lw; ctx.stroke(); }
+    for (const f of L) { if (f.g.length < 2) continue; ctx.beginPath(); for (const r of f.g) { P(r); ctx.closePath(); } ctx.fill('evenodd'); }
+  };
+  const lines = (L, color, w, dash) => {
+    if (!L || w <= 0) return;
+    ctx.strokeStyle = color; ctx.lineWidth = w; ctx.setLineDash(dash || []);
+    ctx.beginPath(); for (const f of L) P(f.g[0]); ctx.stroke(); ctx.setLineDash([]);
+  };
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  polys('grass', T['m-grass']); polys('park', T['m-park']); polys('wood', T['m-wood']); polys('pitch', T['m-pitch']); polys('water', T['m-water']);
+  lines(g.stream, T['m-water'], z >= 16 ? 2.4 : 1.4);
+  polys('building', T['m-bld'], z >= 16 ? T['m-bld-edge'] : null, 0.7);
+
+  const f = Math.pow(2, (z - 16) * 0.8);
+  const show = cls => !((cls === 'path' || cls === 'service') && z < 15);
+  if (z < 14) {
+    // zoomed out: thin dark lines for local streets, cased lines for the main roads
+    lines(g['road:residential'], T['m-major-casing'], 0.9);
+    const majors = ['tertiary', 'secondary', 'primary', 'motorway'];
+    for (const cls of majors) lines(g['road:' + cls], T['m-major-casing'], ROAD_W[cls] * f * 1.3 + 1.8);
+    for (const cls of majors) lines(g['road:' + cls], T['m-major'], ROAD_W[cls] * f * 1.3);
+  } else {
+    for (const cls of ROAD_ORDER) if (show(cls) && cls !== 'path')
+      lines(g['road:' + cls], MAJOR[cls] ? T['m-major-casing'] : T['m-casing'], ROAD_W[cls] * f + (z >= 16 ? 2.2 : 1.6));
+    for (const cls of ROAD_ORDER) if (show(cls)) {
+      if (cls === 'path') lines(g['road:path'], T['m-path'], z >= 17 ? 1.8 : 1.2, [3, 3]);
+      else lines(g['road:' + cls], MAJOR[cls] ? T['m-major'] : T['m-road'], ROAD_W[cls] * f);
+    }
+  }
+  lines(g.rail, T['m-rail'], 1.6, [5, 4]);
+
+  // street names: drawn on every tile they touch, so they join up across tile edges
+  const lp = 150;
+  const size = z >= 17 ? 12.5 : 11.5;
+  ctx.font = `600 ${size}px ${T.font || 'sans-serif'}`;
+  try { ctx.fontStretch = 'semi-condensed'; } catch {}
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineWidth = 3.2; ctx.strokeStyle = T['m-halo']; ctx.fillStyle = T['m-label'];
+  for (const lb of BASE.labels) {
+    if (lb.z > z + 0.01) continue;
+    const px = lb.x * s - ox, py = lb.y * s - oy;
+    if (px < -lp || py < -lp || px > W + lp || py > W + lp) continue;
+    ctx.save(); ctx.translate(px, py); ctx.rotate(lb.a * Math.PI / 180);
+    ctx.strokeText(lb.t, 0, 0); ctx.fillText(lb.t, 0, 0); ctx.restore();
+  }
+}
+
+const BaseLayer = L.GridLayer.extend({
+  createTile(co) {
+    const c = document.createElement('canvas');
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    c.width = c.height = W * dpr;
+    try { drawTile(c.getContext('2d'), co, dpr); } catch (e) { console.error(e); }
+    return c;
+  }
+});
+const base = new BaseLayer({ tileSize: W, minZoom: 13, maxZoom: 19, keepBuffer: 3, updateWhenZooming: false, className: 'basemap' }).addTo(map);
+const redrawBase = () => { readTokens(); base.redraw(); };
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', redrawBase);
+new MutationObserver(redrawBase).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+/* --- restaurant + distance rings */
+const RINGS = [1000, 2000, 3000];
+const ringLayers = RINGS.map(r => L.circle([R_LAT, R_LON], { radius: r, className: 'ring', interactive: false }).addTo(map));
+RINGS.forEach(r => {
+  const p = L.latLng(R_LAT + r / 111132, R_LON);
+  L.marker(p, { interactive: false, keyboard: false, icon: L.divIcon({ className: 'ringlbl', html: `<span>${r / 1000} km</span>`, iconSize: [0, 0] }) }).addTo(map);
+});
+L.marker([R_LAT, R_LON], { keyboard: false, zIndexOffset: 1000, title: 'Restaurant · ' + RESTAURANT,
+  icon: L.divIcon({ className: 'resto', iconSize: [0, 0], html:
+    `<div class="pin"><span class="lbl">Restaurant</span><span class="dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5h18a9 9 0 0 1-18 0Z" fill="currentColor"/><path d="M8 3.5c-1 1.4 1 2.4 0 4.2M12 3.5c-1 1.4 1 2.4 0 4.2M16 3.5c-1 1.4 1 2.4 0 4.2" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg></span></div>` }) })
+  .on('click', () => toast('Restaurant · ' + RESTAURANT)).addTo(map);
+
+/* --- building shapes + badges */
+const LAYERS = new Map();   // id -> { poly, tag }
+function polyLatLngs(b) {
+  if (!b.poly) return null;
+  return b.poly.length === 1 ? [b.poly[0], ...(b.holes || [])] : b.poly.map(r => [r]);
+}
+function makeLayers(it) {
+  const o = {};
+  const ll = polyLatLngs(it);
+  if (ll) {
+    o.poly = L.polygon(ll, { className: 'b', weight: 1, smoothFactor: 0.5 }).addTo(map);
+    o.poly.on('click', e => { L.DomEvent.stopPropagation(e); select(it.id); });
+  }
+  o.tag = L.marker(it.c, { keyboard: false, icon: L.divIcon({ className: 'tagicon', html: '<span class="tag"></span>', iconSize: [0, 0] }) });
+  o.tag.on('click', e => { L.DomEvent.stopPropagation(e); select(it.id); });
+  LAYERS.set(it.id, o);
+  return o;
+}
+function tagHTML(it, f) {
+  if (f.status === 'stop') return '✕';
+  if (f.elev === 'check') return '?';
+  if (f.status === 'done') return ICON_CHECK;
+  return it.floors ? String(it.floors) : ICON_ELEV;
+}
+function tagClass(it, f) {
+  return ['tag', 'e-' + f.elev, 's-' + f.status, f.far ? 'far' : '', it.custom ? 'custom' : '', selected === it.id ? 'sel' : ''].filter(Boolean).join(' ');
+}
+function styleLayers(it) {
+  const o = LAYERS.get(it.id) || makeLayers(it);
+  const f = eff(it);
+  if (o.poly) {
+    const el = o.poly.getElement();
+    if (el) el.setAttribute('class', ['leaflet-interactive', 'b', 'e-' + f.elev, f.elev !== 'no' ? 's-' + f.status : '', f.far ? 'far' : '', selected === it.id ? 'sel' : ''].filter(Boolean).join(' '));
+    if (selected === it.id) o.poly.bringToFront();
+  }
+  const wantTag = f.elev !== 'no' || f.status === 'stop' || (it.custom && !o.poly);
+  if (wantTag) {
+    if (!map.hasLayer(o.tag)) o.tag.addTo(map);
+    const el = o.tag.getElement();
+    const span = el && el.firstChild;
+    if (span) { span.className = tagClass(it, f); span.innerHTML = tagHTML(it, f); }
+    o.tag.setZIndexOffset(selected === it.id ? 2000 : f.elev === 'likely' && f.status === 'todo' ? 500 : 0);
+  } else if (map.hasLayer(o.tag)) {
+    o.tag.remove();
+  }
+}
+function rebuildCustom() {
+  const src = customSource();
+  for (const it of ITEMS.filter(i => i.custom)) {
+    if (!src[it.id]) { const o = LAYERS.get(it.id); if (o) { o.tag.remove(); o.poly && o.poly.remove(); } LAYERS.delete(it.id); BY_ID.delete(it.id); }
+  }
+  ITEMS = ITEMS.filter(i => !i.custom);
+  for (const [id, c] of Object.entries(src)) {
+    if (!c || typeof c.lat !== 'number' || typeof c.lng !== 'number') continue;
+    const it = itemFromCustom(id, c);
+    const prev = LAYERS.get(id);
+    if (prev) prev.tag.setLatLng(it.c);
+    ITEMS.push(it); BY_ID.set(id, it);
+  }
+  if (selected && !BY_ID.has(selected)) { selected = null; showView('list'); }
+}
+
+/* ------------------------------------------------------------------ panel + list */
+const panel = $('#panel');
+let selected = null;
+let view = 'list';
+
+function setSheet(size) {
+  panel.dataset.size = size;
+  $('#grip').setAttribute('aria-expanded', String(size === 'open'));
+  $('#grip').setAttribute('aria-label', size === 'open' ? 'Collapse the panel' : 'Show the building list');
+  setTimeout(() => map.invalidateSize({ pan: false }), 260);
+}
+$('#grip').addEventListener('click', () => setSheet(panel.dataset.size === 'open' ? 'peek' : 'open'));
+$('#summary').addEventListener('click', () => { if (!isDesktop() && panel.dataset.size !== 'open') setSheet('open'); });
+
+function showView(v) {
+  view = v;
+  $('#v-list').hidden = v !== 'list';
+  $('#v-detail').hidden = v !== 'detail';
+  $('#v-add').hidden = v !== 'add';
+}
+
+function counts() {
+  const c = { todo: 0, check: 0, done: 0, stop: 0, flyers: 0, unknownUnits: 0 };
+  for (const it of ITEMS) {
+    if (it.dist > prefs.radius) continue;
+    const f = eff(it), t = tabOf(it, f);
+    if (!t) continue;
+    c[t]++;
+    if (t === 'todo') { if (it.units) c.flyers += it.units; else c.unknownUnits++; }
+  }
+  return c;
+}
+
+const TABHELP = {
+  todo: 'Buildings that likely have an elevator and haven\'t had flyers this round. Closest first.',
+  check: 'The map doesn\'t say whether these have an elevator. When you\'re there, mark them so everyone knows.',
+  done: 'Flyers delivered since the current round started.',
+  stop: 'Buildings that don\'t allow flyers.',
+};
+
+function renderList() {
+  if (!ITEMS.length) return;
+  const c = counts();
+  $('#st-todo').textContent = c.todo;
+  $('#st-done').textContent = c.done;
+  $('#st-flyers').textContent = c.todo ? '≈ ' + fmtN(c.flyers) + (c.unknownUnits ? '+' : '') : '0';
+  $('#scope').textContent = `Within ${prefs.radius / 1000} km of the restaurant` + (c.unknownUnits ? ` · ${c.unknownUnits} building${c.unknownUnits > 1 ? 's' : ''} with no unit estimate` : '');
+  for (const k of ['todo', 'check', 'done', 'stop']) $('#n-' + k).textContent = c[k];
+  for (const b of $('#tabs').children) b.setAttribute('aria-selected', String(b.dataset.tab === prefs.tab));
+  $('#tabhelp').textContent = TABHELP[prefs.tab];
+
+  const q = $('#q').value.trim().toLowerCase();
+  const rows = [];
+  for (const it of ITEMS) {
+    if (it.dist > prefs.radius) continue;
+    const f = eff(it);
+    if (tabOf(it, f) !== prefs.tab) continue;
+    if (q && !(titleOf(it) + ' ' + addrOf(it) + ' ' + it.street + ' ' + (it.manager || '')).toLowerCase().includes(q)) continue;
+    rows.push([it, f]);
+  }
+  rows.sort((a, b) => a[0].dist - b[0].dist);
+  const list = $('#list');
+  if (!rows.length) {
+    list.innerHTML = `<li class="empty">${q ? 'No buildings match that search.' : {
+      todo: 'Nothing left to do in this area. Widen the distance or start a new round.',
+      check: 'No unconfirmed buildings in this area.',
+      done: 'No flyers delivered yet this round.',
+      stop: 'No buildings have been marked as not allowing flyers.' }[prefs.tab]}</li>`;
+    return;
+  }
+  list.innerHTML = rows.map(([it, f]) => {
+    const sub = it.name ? addrOf(it) : (it.kind === 'seniors' ? "Seniors' residence" : it.kind === 'student' ? 'Student residence' : (it.manager || 'Apartment building'));
+    const meta2 = f.elev === 'check' ? (it.floors ? `${it.floors} floors` : 'floors unknown')
+      : f.status === 'done' ? `done ${fmtDay(f.d.doneAt)}`
+      : it.units ? `≈ ${fmtN(it.units)} units` : (it.floors ? `${it.floors} floors` : '');
+    return `<li><button class="row" data-id="${esc(it.id)}" type="button">
+      <span class="${tagClass(it, f).replace(' sel', '')}">${tagHTML(it, f)}</span>
+      <span class="row-main"><b>${esc(titleOf(it))}</b><small>${esc(sub)}</small></span>
+      <span class="row-meta"><b>${km(it.dist)}</b><small>${esc(meta2)}</small></span></button></li>`;
+  }).join('');
+}
+$('#list').addEventListener('click', e => { const b = e.target.closest('.row'); if (b) select(b.dataset.id, true); });
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button[data-tab]'); if (!b) return; prefs.tab = b.dataset.tab; savePrefs(); renderList(); });
+$('#q').addEventListener('input', renderList);
+
+/* rounds */
+function renderRound() {
+  const r = roundStart();
+  const info = $('#round-info');
+  info.textContent = r ? `This round started ${fmtDay(r.startedAt)}.` : 'No round started yet, so every delivery counts as done.';
+  if (r && r.startedBy && S.user) S.user.profiles([r.startedBy]).then(ps => { const n = ps[r.startedBy] && ps[r.startedBy].name; if (n && roundStart() === r) info.textContent = `This round started ${fmtDay(r.startedAt)} by ${n}.`; }).catch(() => {});
+  $('#round-btn').disabled = S.mode === 'pending';
+}
+$('#round-btn').addEventListener('click', () => {
+  const box = $('#round-confirm');
+  box.hidden = false;
+  box.innerHTML = `<div class="confirm"><p>Start a new round? Every elevator building goes back to <b>To do</b>. Past delivery dates and notes are kept.${S.mode !== 'shared' ? ' This only changes this phone.' : ''}</p>
+    <div class="actions"><button class="btn primary" type="button" data-act="go">Start new round</button><button class="btn" type="button" data-act="no">Cancel</button></div></div>`;
+});
+$('#round-confirm').addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  $('#round-confirm').hidden = true;
+  if (a.dataset.act === 'go') { save('round', null, { startedAt: Date.now(), startedBy: S.meId || null, updatedAt: Date.now() }); toast('New round started. Everything is back to To do.'); }
+});
+
+/* ------------------------------------------------------------------ detail view */
+function directionsURL(it) { return `https://www.google.com/maps/dir/?api=1&destination=${it.c[0]},${it.c[1]}&travelmode=walking`; }
+function fullAddr(it) { return [addrOf(it), 'Ottawa, ON', it.postcode].filter(Boolean).join(', '); }
+
+function renderDetail() {
+  const it = BY_ID.get(selected); if (!it) return;
+  const f = eff(it), d = f.d;
+  const box = $('#v-detail');
+  const dir = `<a class="btn" href="${directionsURL(it)}" target="_blank" rel="noopener">${ICON_DIR}Directions</a>`;
+  const ready = S.mode !== 'pending';
+  const dis = ready ? '' : ' disabled';
+
+  if (f.elev === 'no' && f.status !== 'stop') {
+    box.innerHTML = `<button class="back" type="button" data-act="back">‹ All buildings</button>
+      <div class="kicker">No elevator</div>
+      <h2 class="dtitle">Skip this building</h2>
+      <p class="daddr">${esc(addrOf(it))}</p>
+      <p class="note" style="margin-top:10px">${esc(f.confirmed ? 'A staff member marked this building as having no elevator.' : it.why)}</p>
+      <div class="fix"><span>Is that wrong?</span><div class="actions">
+        <button class="btn" type="button" data-act="elev-yes"${dis}>It has an elevator</button>
+        ${f.confirmed && !it.custom ? `<button class="btn" type="button" data-act="elev-reset"${dis}>Go back to the map estimate</button>` : ''}
+        ${it.custom ? `<button class="btn warn" type="button" data-act="del"${dis}>Remove this added building</button>` : ''}</div></div>`;
+    return;
+  }
+
+  if (f.elev === 'check' && f.status !== 'stop') {
+    box.innerHTML = `<button class="back" type="button" data-act="back">‹ All buildings</button>
+      <div class="kicker"><span class="tag e-check">?</span>Elevator not confirmed</div>
+      <h2 class="dtitle">${esc(titleOf(it))}</h2>
+      ${it.name ? `<p class="daddr">${esc(addrOf(it))}</p>` : ''}
+      <p class="note" style="margin-top:10px">${esc(it.why)} Details stay hidden until someone confirms there's an elevator.</p>
+      <div class="status"><p><b>Does it have an elevator?</b></p><div class="actions">
+        <button class="btn primary" type="button" data-act="elev-yes"${dis}>Yes, it has one</button>
+        <button class="btn" type="button" data-act="elev-no"${dis}>No, walk-up</button></div></div>
+      <div class="drow">${dir}<button class="btn" type="button" data-act="copy">${ICON_COPY}Copy address</button></div>`;
+    return;
+  }
+
+  // elevator building (or one that refuses flyers): full delivery details
+  const kicker = f.status === 'stop' ? 'Flyers not allowed'
+    : (f.confirmed ? 'Elevator confirmed by staff' : 'Elevator likely') + (it.kind === 'seniors' ? " · seniors' residence" : it.kind === 'student' ? ' · student residence' : '');
+  const doneLine = d.doneAt
+    ? (f.status === 'done' ? `Flyers delivered <b>${fmtDay(d.doneAt)}</b><span data-who="${esc(d.doneBy || '')}"></span>.` : `Last delivered ${fmtDay(d.doneAt)}<span data-who="${esc(d.doneBy || '')}"></span>, before this round.`)
+    : 'No flyers delivered here yet.';
+  const facts = [
+    `<div><dt>Floors</dt><dd>${it.floors ? it.floors : 'Unknown'}</dd></div>`,
+    `<div><dt>Units</dt><dd>${it.units ? '≈ ' + fmtN(it.units) : 'Unknown'}${it.units ? '<small>estimate from building size</small>' : ''}</dd></div>`,
+    `<div><dt>From restaurant</dt><dd>${km(it.dist)}<small>about ${walkMin(it.dist)} min walk</small></dd></div>`,
+    `<div><dt>Elevator</dt><dd>${f.confirmed ? 'Confirmed' : 'Likely'}<small>${esc(f.confirmed ? (it.custom ? 'Added by staff' : 'Marked by staff') : (it.floors ? it.floors + ' storeys' : 'from building type'))}</small></dd></div>`,
+  ];
+  if (it.manager || it.phone || it.web) {
+    facts.push(`<div class="full"><dt>Building manager</dt><dd>${esc(it.manager || '—')}${it.phone ? `<small>${esc(it.phone)}</small>` : ''}${it.web ? `<small><a href="${esc(it.web)}" target="_blank" rel="noopener">Website</a></small>` : ''}</dd></div>`);
+  }
+  const statusBox = f.status === 'stop'
+    ? `<div class="status" data-s="stop"><p>This building doesn't allow flyers. Leave it out.</p><div class="actions">
+        <button class="btn" type="button" data-act="unstop"${dis}>Flyers are allowed after all</button></div></div>`
+    : `<div class="status" data-s="${f.status}"><p>${doneLine}</p><div class="actions">
+        ${f.status === 'done'
+          ? `<button class="btn" type="button" data-act="undo"${dis}>Undo delivered</button>`
+          : `<button class="btn go" type="button" data-act="done"${dis}>${ICON_CHECK.replace('viewBox', 'width="16" height="16" viewBox')}Mark flyers delivered</button>`}
+        <button class="btn warn" type="button" data-act="stop"${dis}>No flyers allowed</button></div></div>`;
+
+  box.innerHTML = `<button class="back" type="button" data-act="back">‹ All buildings</button>
+    <div class="kicker"><span class="${tagClass(it, f).replace(' sel', '')}">${tagHTML(it, f)}</span>${esc(kicker)}</div>
+    <h2 class="dtitle">${esc(titleOf(it))}</h2>
+    <p class="daddr">${esc(it.name ? fullAddr(it) : ['Ottawa, ON', it.postcode].filter(Boolean).join(', '))}</p>
+    <div class="drow">${dir}<button class="btn" type="button" data-act="copy">${ICON_COPY}Copy address</button></div>
+    ${statusBox}
+    <dl class="facts">${facts.join('')}</dl>
+    <div class="field"><label for="note">Notes for the team</label>
+      <textarea id="note" maxlength="1000" placeholder="Where to leave flyers, which door to use, who to ask at the front desk…"></textarea>
+      <div class="meta"><span id="note-meta"></span><button class="btn" type="button" data-act="note"${dis}>Save note</button></div></div>
+    <div class="fix"><span>${it.custom ? 'Added by staff.' : 'Is the elevator info wrong?'}</span><div class="actions">
+      ${it.custom ? `<button class="btn warn" type="button" data-act="del"${dis}>Remove this added building</button>`
+        : `<button class="btn" type="button" data-act="elev-no"${dis}>There's no elevator</button>${f.confirmed ? `<button class="btn" type="button" data-act="elev-reset"${dis}>Go back to the map estimate</button>` : ''}`}
+    </div></div>
+    <div id="del-confirm" hidden></div>
+    ${it.custom ? '' : `<p class="src">Building data from OpenStreetMap · <a href="${esc(it.osm)}" target="_blank" rel="noopener">view the source</a></p>`}`;
+  const ta = $('#note', box);
+  ta.value = d.note || '';
+  ta.dataset.orig = d.note || '';
+  const meta = $('#note-meta', box);
+  meta.textContent = d.note && d.noteAt ? `Updated ${fmtDay(d.noteAt)}` : '';
+  // resolve names of the people in this record
+  const ids = [d.doneBy, d.noteBy].filter(Boolean);
+  if (ids.length && S.user) S.user.profiles(ids).then(ps => {
+    for (const el of box.querySelectorAll('[data-who]')) { const p = ps[el.dataset.who]; if (p && p.name) el.textContent = ' by ' + (p.isMe ? 'you' : p.name); }
+    if (d.noteBy && ps[d.noteBy] && ps[d.noteBy].name && d.noteAt) meta.textContent = `Updated ${fmtDay(d.noteAt)} by ${ps[d.noteBy].isMe ? 'you' : ps[d.noteBy].name}`;
+  }).catch(() => {});
+}
+
+function patchItem(it, patch) {
+  const kind = it.custom ? 'custom' : 'b';
+  const cur = docFor(it);
+  save(kind, it.id, stamp(cur, patch));
+}
+$('#v-detail').addEventListener('click', async e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const it = BY_ID.get(selected); if (!it) return;
+  const f = eff(it), d = f.d;
+  switch (a.dataset.act) {
+    case 'back': deselect(); break;
+    case 'done': patchItem(it, { doneAt: Date.now(), doneBy: S.meId || null, prevDoneAt: d.doneAt || null, prevDoneBy: d.doneBy || null }); toast('Marked as delivered.'); break;
+    case 'undo': patchItem(it, { doneAt: d.prevDoneAt || null, doneBy: d.prevDoneBy || null, prevDoneAt: null, prevDoneBy: null }); toast('Delivery undone.'); break;
+    case 'stop': patchItem(it, { refused: true }); toast('Marked as not allowing flyers.'); break;
+    case 'unstop': patchItem(it, { refused: false }); break;
+    case 'elev-yes': patchItem(it, it.custom ? { elevator: 'yes' } : { elevator: 'yes' }); toast('Thanks. Marked as having an elevator.'); break;
+    case 'elev-no': patchItem(it, { elevator: 'no' }); toast('Marked as no elevator. Details are now hidden.'); break;
+    case 'elev-reset': patchItem(it, { elevator: null }); break;
+    case 'note': {
+      const ta = $('#note');
+      const v = ta.value.trim().slice(0, 1000);
+      if (v === (d.note || '')) { toast('No changes to save.'); break; }
+      patchItem(it, { note: v, noteAt: Date.now(), noteBy: S.meId || null }); toast('Note saved.');
+      break;
+    }
+    case 'copy': {
+      const text = fullAddr(it);
+      try { await navigator.clipboard.writeText(text); toast('Address copied.'); }
+      catch { const r = document.createRange(); const el = (it.name && $('#v-detail .daddr')) || $('#v-detail .dtitle'); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Address selected. Copy it from the menu.'); }
+      break;
+    }
+    case 'del': {
+      const box = $('#del-confirm');
+      box.hidden = false;
+      box.innerHTML = `<div class="confirm" style="margin-top:12px"><p>Remove <b>${esc(titleOf(it))}</b> from the map${S.mode === 'shared' ? ' for everyone' : ''}?</p>
+        <div class="actions"><button class="btn warn" type="button" data-act="del-go">Remove</button><button class="btn" type="button" data-act="del-no">Keep it</button></div></div>`;
+      break;
+    }
+    case 'del-no': $('#del-confirm').hidden = true; break;
+    case 'del-go': {
+      const id = it.id;
+      deselect();
+      save('custom', id, null, true);
+      toast('Building removed.');
+      break;
+    }
+  }
+});
+
+/* ------------------------------------------------------------------ selection */
+function sheetOffset() { if (isDesktop()) return 0; return $('.main').getBoundingClientRect().height * 0.64; }
+function focusOn(latlng, minZoom) {
+  const z = Math.max(map.getZoom(), minZoom);
+  const p = map.project(latlng, z).add([0, sheetOffset() / 2]);
+  const target = map.unproject(p, z);
+  if (reduceMotion) map.setView(target, z); else map.flyTo(target, z, { duration: 0.6 });
+}
+function select(id, fly) {
+  const prev = selected;
+  selected = id;
+  if (prev && BY_ID.has(prev)) styleLayers(BY_ID.get(prev));
+  const it = BY_ID.get(id); if (!it) return;
+  styleLayers(it);
+  showView('detail');
+  renderDetail();
+  $('#v-detail').scrollTop = 0;
+  if (!isDesktop()) setSheet('open');
+  if (fly || !map.getBounds().pad(-0.1).contains(it.c) || !isDesktop()) focusOn(L.latLng(it.c), fly ? 17 : map.getZoom());
+}
+function deselect() {
+  const prev = selected; selected = null;
+  if (prev && BY_ID.has(prev)) styleLayers(BY_ID.get(prev));
+  showView('list'); renderList();
+}
+map.on('click', e => {
+  if (adding) { placeAdd(e.latlng); return; }
+  if (selected) { deselect(); if (!isDesktop()) setSheet('peek'); }
+});
+
+/* ------------------------------------------------------------------ add a missing building */
+let adding = false, addPin = null;
+$('#add-btn').addEventListener('click', () => {
+  adding = true;
+  $('#addbar').hidden = false;
+  if (!isDesktop()) setSheet('peek');
+  map.getContainer().style.cursor = 'crosshair';
+});
+function stopAdding() {
+  adding = false; $('#addbar').hidden = true; map.getContainer().style.cursor = '';
+  if (addPin) { addPin.remove(); addPin = null; }
+}
+$('#add-cancel').addEventListener('click', () => { stopAdding(); showView(selected ? 'detail' : 'list'); });
+function placeAdd(latlng) {
+  if (addPin) addPin.setLatLng(latlng);
+  else addPin = L.marker(latlng, { keyboard: false, interactive: false, icon: L.divIcon({ className: 'tagicon', html: '<span class="pending-pin"></span>', iconSize: [0, 0] }) }).addTo(map);
+  $('#addbar span').textContent = 'Tap again to move the pin';
+  const dist = Math.round(L.latLng(R_LAT, R_LON).distanceTo(latlng));
+  const box = $('#v-add');
+  box.innerHTML = `<button class="back" type="button" data-act="cancel">‹ Cancel</button>
+    <div class="kicker">Add a missing building</div>
+    <h2 class="dtitle">New building, ${km(dist)} away</h2>
+    <p class="note">Use this for buildings that aren't on the map yet. Everyone with access will see it.</p>
+    <form id="add-form">
+      <div class="field"><label for="a-addr">Street address</label><input id="a-addr" required maxlength="120" placeholder="e.g. 100 Centrepointe Dr"></div>
+      <div class="field"><label for="a-name">Building name (optional)</label><input id="a-name" maxlength="80"></div>
+      <div class="field"><label for="a-floors">Floors</label><input id="a-floors" type="number" inputmode="numeric" min="1" max="60"></div>
+      <div class="field"><label for="a-units">About how many units? (optional)</label><input id="a-units" type="number" inputmode="numeric" min="1" max="2000"></div>
+      <div class="field"><span class="lbl">Elevator</span><div class="radios">
+        <label><input type="radio" name="a-elev" id="a-elev-yes" value="yes" checked> Has an elevator</label>
+        <label><input type="radio" name="a-elev" id="a-elev-no" value="no"> No elevator</label></div></div>
+      <div class="field"><label for="a-note">Note (optional)</label><textarea id="a-note" maxlength="1000"></textarea></div>
+      <button class="btn primary wide" type="submit">Add building</button>
+    </form>`;
+  showView('add');
+  if (!isDesktop()) setSheet('open');
+  box.scrollTop = 0;
+  box.dataset.lat = latlng.lat; box.dataset.lng = latlng.lng;
+  setTimeout(() => { try { $('#a-addr').focus({ preventScroll: true }); } catch {} }, 280);
+}
+$('#v-add').addEventListener('click', e => { if (e.target.closest('[data-act="cancel"]')) { stopAdding(); showView('list'); } });
+$('#v-add').addEventListener('submit', e => {
+  e.preventDefault();
+  const box = $('#v-add');
+  const address = $('#a-addr').value.trim();
+  if (!address) { $('#a-addr').focus(); return; }
+  const floors = parseInt($('#a-floors').value, 10) || null;
+  const units = parseInt($('#a-units').value, 10) || null;
+  const id = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const doc = stamp(null, {
+    lat: +(+box.dataset.lat).toFixed(6), lng: +(+box.dataset.lng).toFixed(6), address, name: $('#a-name').value.trim(),
+    floors, units, elevator: $('#a-elev-no').checked ? 'no' : 'yes', note: $('#a-note').value.trim(),
+    noteAt: $('#a-note').value.trim() ? Date.now() : null, noteBy: S.meId || null, createdAt: Date.now(), createdBy: S.meId || null,
+  });
+  stopAdding();
+  if (S.mode === 'shared') S.remote.custom[id] = doc; else S.local.custom[id] = doc;
+  rebuildCustom();
+  save('custom', id, doc);
+  select(id);
+  toast('Building added.');
+});
+
+/* ------------------------------------------------------------------ radius control */
+function setRadius(r, fit) {
+  prefs.radius = r; savePrefs();
+  for (const b of $('#radius').children) b.setAttribute('aria-checked', String(+b.dataset.r === r));
+  ringLayers.forEach((l, i) => { const el = l.getElement(); if (el) el.setAttribute('class', 'ring' + (RINGS[i] === r ? ' on' : '')); });
+  renderAll();
+  if (fit) fitRadius();
+}
+let pendingFit = false;
+function fitRadius() {
+  const sz = map.getSize();
+  if (!sz.x || !sz.y) { pendingFit = true; return; }   // page opened hidden: fit once it has a size
+  const b = L.latLng(R_LAT, R_LON).toBounds(prefs.radius * 2 + 300);
+  const bottom = isDesktop() ? 20 : (panel.dataset.size === 'open' ? sheetOffset() : parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--peek')) || 118) + 10;
+  map.fitBounds(b, { paddingTopLeft: [10, 56], paddingBottomRight: [10, bottom], animate: !reduceMotion });
+}
+$('#radius').addEventListener('click', e => { const b = e.target.closest('button[data-r]'); if (b) setRadius(+b.dataset.r, true); });
+$('#home-btn').addEventListener('click', () => fitRadius());
+$('#key-btn').addEventListener('click', () => { const lg = $('#legend'); lg.hidden = !lg.hidden; $('#key-btn').setAttribute('aria-expanded', String(!lg.hidden)); });
+
+/* ------------------------------------------------------------------ toast */
+let toastTimer = 0;
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 2800);
+}
+
+/* ------------------------------------------------------------------ render */
+let rafPending = false;
+function renderAll() {
+  if (rafPending) return; rafPending = true;
+  requestAnimationFrame(() => {
+    rafPending = false;
+    if (S.mode !== 'pending' && ITEMS.length) rebuildCustom();
+    for (const it of ITEMS) styleLayers(it);
+    renderList();
+    renderRound();
+    if (view === 'detail' && selected) {
+      const ae = document.activeElement;
+      const typing = ae && ae.id === 'note' && ae.value !== ae.dataset.orig;
+      if (!typing) renderDetail();
+    }
+  });
+}
+new ResizeObserver(() => {
+  map.invalidateSize({ pan: false });
+  const sz = map.getSize();
+  if (pendingFit && sz.x && sz.y) { pendingFit = false; fitRadius(); }
+}).observe($('#map'));
+
+/* ------------------------------------------------------------------ boot */
+setRadius(prefs.radius, false);
+fitRadius();
+Promise.all([
+  fetch('buildings.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
+  fetch('basemap.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
+]).then(([bj, mj]) => {
+  BUILDINGS = bj.buildings;
+  ITEMS = BUILDINGS.map(b => Object.assign({}, b));
+  for (const it of ITEMS) BY_ID.set(it.id, it);
+  BASE = buildBase(mj);
+  base.redraw();
+  $('#loading').hidden = true;
+  setRadius(prefs.radius, false);
+  renderAll();
+}).catch(err => {
+  console.error(err);
+  $('#loading').textContent = "Couldn't load the map data. Reload the page to try again.";
+});
+document.fonts && document.fonts.load('600 12px Archivo').then(() => { if (BASE) base.redraw(); }).catch(() => {});
+initStore().catch(() => setMode('local'));
+})();
+</script>
+
+</body>
+</html>
