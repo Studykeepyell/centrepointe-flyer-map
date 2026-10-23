@@ -177,7 +177,9 @@ path.ring-fill { fill: var(--hl); fill-opacity: .07; stroke: none; }
 .view { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
   padding: 0 max(16px, env(safe-area-inset-right, 0px)) 20px max(16px, env(safe-area-inset-left, 0px)); }
 .panel[data-size="peek"] .view { overflow: hidden; }
-.panel[data-size="peek"] #v-list > :not(.summary):not(.scope) { visibility: hidden; }
+@media (max-width: 899px) {
+  .panel[data-size="peek"] #v-list > :not(.summary):not(.scope) { visibility: hidden; }
+}
 
 .summary { display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 8px; padding: 4px 0 12px; }
 .stat { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
