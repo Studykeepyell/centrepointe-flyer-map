@@ -1,0 +1,16 @@
+# private: the team code is the key to the shared progress data
+build/team-code.txt
+build/test-team-code.txt
+team-link.txt
+
+# large or re-downloadable
+build/raw_*.json
+build/dl/
+tools/
+
+# local scratch
+build/gh-login.log
+build/_*.js
+app/_preview.html
+__pycache__/
+*.pyc

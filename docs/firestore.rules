@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Flyer Map: each team's data lives under teams/<team code>/.
+    // The code (20+ random characters) is only in the team link, and nothing lets
+    // anyone list the teams, so people without the link can't read or write.
+    match /teams/{team}/{coll}/{docId} {
+      allow read: if team.size() >= 20;
+      allow create, update: if team.size() >= 20
+        && coll in ['buildings', 'custom', 'meta']
+        && request.resource.data.keys().size() <= 30
+        && (!('note' in request.resource.data)
+            || request.resource.data.note == null
+            || (request.resource.data.note is string && request.resource.data.note.size() <= 2000));
+      allow delete: if team.size() >= 20 && coll == 'custom';
+    }
+  }
+}

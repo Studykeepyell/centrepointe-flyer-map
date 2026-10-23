@@ -1,24 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Apartment buildings with elevators near 261 Centrepointe Dr, Ottawa, for flyer delivery.">
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#181E1A" media="(prefers-color-scheme: dark)">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Flyer Map">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2318201C'/%3E%3Crect x='7' y='8' width='18' height='17' rx='3' fill='%23FFE04A'/%3E%3Ctext x='16' y='21.5' font-family='Arial' font-weight='700' font-size='11' text-anchor='middle' fill='%2318201C'%3E14%3C/text%3E%3C/svg%3E">
-<script src="backend.js"></script>
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-</head>
-<body>
 <title>Centrepointe Flyer Map</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Atkinson+Hyperlegible:wght@400;700&family=Noto+Sans+SC:wght@400;700;800&display=swap">
 <link rel="stylesheet" href="leaflet.css">
 <style>
 /* Layout: one-screen field tool. Header bar on top, the map fills the rest; the list/detail panel docks left on
@@ -32,8 +15,8 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
   --m-land: #ECEEE8; --m-bld: #D9DCD3; --m-bld-edge: #C3C7BC; --m-road: #FFFFFF; --m-major: #FFFFFF;
   --m-casing: #D0D4CC; --m-major-casing: #ABB2A7; --m-path: #9DA698; --m-water: #B4CFE1; --m-park: #D2E4C7;
   --m-wood: #C2D9B4; --m-grass: #DAE9D1; --m-pitch: #C9E0BC; --m-rail: #959D94; --m-label: #434D47; --m-halo: #F2F4F0;
-  --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-  --f-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-display: "Archivo", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --peek: 118px;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
@@ -80,6 +63,10 @@ a { color: var(--select); }
   text-transform: uppercase; line-height: 1.1; white-space: nowrap; }
 .mark span { background: linear-gradient(transparent 52%, var(--hl) 52%, var(--hl) 92%, transparent 92%); padding: 0 2px; }
 .sub { color: var(--ink-2); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.bar-r { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.lang { flex: none; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 5px 11px;
+  font: 700 13px/1.1 var(--f-display); }
+.lang:hover { background: var(--surface); }
 .sync { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--ink-2); white-space: nowrap; flex: none; }
 .sync i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); flex: none; }
 .sync[data-mode="shared"] i { background: var(--done); box-shadow: 0 0 0 3px var(--done-soft); }
@@ -173,6 +160,7 @@ path.ring-fill { fill: var(--hl); fill-opacity: .07; stroke: none; }
 .view { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
   padding: 0 max(16px, env(safe-area-inset-right, 0px)) 20px max(16px, env(safe-area-inset-left, 0px)); }
 .panel[data-size="peek"] .view { overflow: hidden; }
+.panel[data-size="peek"] #v-list > :not(.summary):not(.scope) { visibility: hidden; }
 
 .summary { display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 8px; padding: 4px 0 12px; }
 .stat { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
@@ -256,6 +244,7 @@ path.ring-fill { fill: var(--hl); fill-opacity: .07; stroke: none; }
   .leaflet-bottom { bottom: var(--peek); }
   .sub { display: none; }
 }
+@media (max-width: 360px) { .sync span { display: none; } }
 @media (max-width: 380px) {
   .seg button { padding: 6px 9px; }
   .chip .t { display: none; }
@@ -277,43 +266,46 @@ path.ring-fill { fill: var(--hl); fill-opacity: .07; stroke: none; }
 <div class="app">
   <header class="bar">
     <div class="brand">
-      <div class="mark"><span>Flyer Map</span></div>
-      <div class="sub">Apartments with elevators near 261 Centrepointe Dr</div>
+      <div class="mark"><span data-i18n="brand">Flyer Map</span></div>
+      <div class="sub" data-i18n="sub">Apartments with elevators near 261 Centrepointe Dr</div>
     </div>
-    <div class="sync" id="sync" data-mode="pending" role="status"><i></i><span>Connecting…</span></div>
+    <div class="bar-r">
+      <button class="lang" id="lang-btn" type="button" lang="zh-CN" aria-label="Switch language to Chinese">中文</button>
+      <div class="sync" id="sync" data-mode="pending" role="status"><i></i><span>Connecting…</span></div>
+    </div>
   </header>
 
   <div class="main">
-    <aside class="panel" id="panel" data-size="peek" aria-label="Buildings">
+    <aside class="panel" id="panel" data-size="peek" data-i18n-aria="panelAria" aria-label="Buildings">
       <button class="grip" id="grip" aria-label="Show the building list" aria-expanded="false"><span></span></button>
 
       <section class="view" id="v-list">
         <div class="summary" id="summary">
-          <div class="stat hl"><b id="st-todo">–</b><span>elevator buildings to do</span></div>
-          <div class="stat"><b id="st-done">–</b><span>done this round</span></div>
-          <div class="stat"><b id="st-flyers">–</b><span>flyers needed (estimate)</span></div>
+          <div class="stat hl"><b id="st-todo">–</b><span data-i18n="st.todo">elevator buildings to do</span></div>
+          <div class="stat"><b id="st-done">–</b><span data-i18n="st.done">done this round</span></div>
+          <div class="stat"><b id="st-flyers">–</b><span data-i18n="st.flyers">flyers needed (estimate)</span></div>
         </div>
         <p class="scope" id="scope">Within 2 km of the restaurant</p>
         <div class="tabs" role="tablist" id="tabs">
-          <button role="tab" data-tab="todo" aria-selected="true"><b id="n-todo">–</b>To do</button>
-          <button role="tab" data-tab="check" aria-selected="false"><b id="n-check">–</b>Check</button>
-          <button role="tab" data-tab="done" aria-selected="false"><b id="n-done">–</b>Done</button>
-          <button role="tab" data-tab="stop" aria-selected="false"><b id="n-stop">–</b>No flyers</button>
+          <button role="tab" data-tab="todo" aria-selected="true"><b id="n-todo">–</b><span data-i18n="tab.todo">To do</span></button>
+          <button role="tab" data-tab="check" aria-selected="false"><b id="n-check">–</b><span data-i18n="tab.check">Check</span></button>
+          <button role="tab" data-tab="done" aria-selected="false"><b id="n-done">–</b><span data-i18n="tab.done">Done</span></button>
+          <button role="tab" data-tab="stop" aria-selected="false"><b id="n-stop">–</b><span data-i18n="tab.stop">No flyers</span></button>
         </div>
-        <input class="search" id="q" type="search" placeholder="Search a street or building" autocomplete="off" aria-label="Search buildings">
-        <ol class="list" id="list"><li class="empty">Loading buildings…</li></ol>
+        <input class="search" id="q" type="search" data-i18n-ph="search" placeholder="Search a street or building" autocomplete="off" data-i18n-aria="search" aria-label="Search buildings">
+        <ol class="list" id="list"><li class="empty" data-i18n="loadingList">Loading buildings…</li></ol>
         <div class="foot">
           <p id="tabhelp"></p>
           <div class="actions">
-            <button class="btn" id="add-btn" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Add a missing building</button>
-            <button class="btn" id="round-btn" type="button">Start a new round</button>
+            <button class="btn" id="add-btn" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg><span data-i18n="addBtn">Add a missing building</span></button>
+            <button class="btn" id="round-btn" type="button" data-i18n="roundBtn">Start a new round</button>
           </div>
           <div id="round-confirm" hidden></div>
           <div id="site-extra"></div>
           <p id="round-info"></p>
           <p id="mode-info"></p>
-          <p>Elevators are estimated from floor counts on OpenStreetMap: 5 storeys or more counts as "likely". When staff mark a building as having an elevator or not, that answer replaces the estimate for everyone.</p>
-          <p>Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, downloaded Oct 23, 2026.</p>
+          <p data-i18n="aboutEst">Elevators are estimated from floor counts on OpenStreetMap: 5 storeys or more counts as "likely". When staff mark a building as having an elevator or not, that answer replaces the estimate for everyone.</p>
+          <p id="map-data">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, downloaded Oct 23, 2026.</p>
         </div>
       </section>
 
@@ -322,32 +314,32 @@ path.ring-fill { fill: var(--hl); fill-opacity: .07; stroke: none; }
     </aside>
 
     <div class="mapwrap">
-      <div id="map" aria-label="Map of apartment buildings around the restaurant"></div>
+      <div id="map" data-i18n-aria="mapAria" aria-label="Map of apartment buildings around the restaurant"></div>
       <div class="mapctl">
-        <div class="seg" role="radiogroup" aria-label="Distance from the restaurant" id="radius">
+        <div class="seg" role="radiogroup" data-i18n-aria="radiusAria" aria-label="Distance from the restaurant" id="radius">
           <button role="radio" data-r="1000" aria-checked="false">1 km</button>
           <button role="radio" data-r="2000" aria-checked="true">2 km</button>
           <button role="radio" data-r="3000" aria-checked="false">3 km</button>
         </div>
         <div class="ctlstack">
-          <button class="chip" id="home-btn" type="button" aria-label="Center on the restaurant">
-            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="8" r="1.8" fill="currentColor"/></svg><span class="t">Restaurant</span></button>
-          <button class="chip" id="key-btn" type="button" aria-expanded="false" aria-controls="legend">Key</button>
+          <button class="chip" id="home-btn" type="button" data-i18n-aria="homeAria" aria-label="Center on the restaurant">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="8" r="1.8" fill="currentColor"/></svg><span class="t" data-i18n="home">Restaurant</span></button>
+          <button class="chip" id="key-btn" type="button" aria-expanded="false" aria-controls="legend" data-i18n="key">Key</button>
         </div>
       </div>
       <div class="legend" id="legend" hidden>
-        <h3>What the colours mean</h3>
+        <h3 data-i18n="legend.title">What the colours mean</h3>
         <ul>
-          <li><span class="sw tag" style="position:static;transform:none">14</span><span>Elevator, drop flyers. The number is the floor count.</span></li>
-          <li><span class="sw tag e-check" style="position:static;transform:none">?</span><span>Not sure. Check for an elevator at the door.</span></li>
-          <li><span class="sw tag s-done" style="position:static;transform:none"><svg viewBox="0 0 12 12"><path d="M2.5 6.4 5 8.8 9.6 3.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Flyers delivered this round</span></li>
-          <li><span class="sw tag s-stop" style="position:static;transform:none">✕</span><span>Building doesn't allow flyers</span></li>
-          <li><span class="sw blk"></span><span>No elevator. Skip it.</span></li>
+          <li><span class="sw tag" style="position:static;transform:none">14</span><span data-i18n="legend.likely">Elevator, drop flyers. The number is the floor count.</span></li>
+          <li><span class="sw tag e-check" style="position:static;transform:none">?</span><span data-i18n="legend.check">Not sure. Check for an elevator at the door.</span></li>
+          <li><span class="sw tag s-done" style="position:static;transform:none"><svg viewBox="0 0 12 12"><path d="M2.5 6.4 5 8.8 9.6 3.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="legend.done">Flyers delivered this round</span></li>
+          <li><span class="sw tag s-stop" style="position:static;transform:none">✕</span><span data-i18n="legend.stop">Building doesn't allow flyers</span></li>
+          <li><span class="sw blk"></span><span data-i18n="legend.no">No elevator. Skip it.</span></li>
         </ul>
-        <p>Dashed rings mark 1, 2 and 3 km from the restaurant.</p>
+        <p data-i18n="legend.rings">Dashed rings mark 1, 2 and 3 km from the restaurant.</p>
       </div>
-      <div class="addbar" id="addbar" hidden><span>Tap the map where the building is</span><button type="button" id="add-cancel">Cancel</button></div>
-      <div class="loading" id="loading">Loading the map…</div>
+      <div class="addbar" id="addbar" hidden><span id="addbar-text" data-i18n="addbar">Tap the map where the building is</span><button type="button" id="add-cancel" data-i18n="cancel">Cancel</button></div>
+      <div class="loading" id="loading" data-i18n="loadingMap">Loading the map…</div>
       <div class="toast" id="toast" role="status" hidden></div>
     </div>
   </div>
@@ -369,8 +361,197 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 const PREF_KEY = 'flyermap.v1.prefs', LOCAL_KEY = 'flyermap.v1.local';
 function readJSON(k, fb) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } }
 function writeJSON(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
-const prefs = Object.assign({ radius: 2000, tab: 'todo' }, readJSON(PREF_KEY, {}));
-const savePrefs = () => writeJSON(PREF_KEY, { radius: prefs.radius, tab: prefs.tab });
+const prefs = Object.assign({ radius: 2000, tab: 'todo', lang: null }, readJSON(PREF_KEY, {}));
+const savePrefs = () => writeJSON(PREF_KEY, { radius: prefs.radius, tab: prefs.tab, lang: prefs.lang });
+
+/* ------------------------------------------------------------------ language: English / Simplified Chinese */
+const I18N = {
+  en: {
+    docTitle: 'Centrepointe Flyer Map', brand: 'Flyer Map', sub: 'Apartments with elevators near 261 Centrepointe Dr',
+    langBtn: '中文', langAria: 'Switch language to Chinese', panelAria: 'Buildings',
+    'sync.pending': 'Connecting…', 'sync.shared': 'Team sync on', 'sync.readonly': 'View-only team data', 'sync.local': 'Saved on this phone',
+    'info.shared': 'Marks and notes are shared with everyone who has this link, and update live.',
+    'info.readonly': "You can see the team's marks, but your own marks are saved on this phone only. Ask the owner to invite you as an editor to share them.",
+    'info.localClaude': 'Marks are saved on this phone only. To share progress with the team, open the link while signed in to claude.ai with editor access.',
+    'info.local': 'Marks are saved on this device only, so each phone keeps its own list.',
+    gripOpen: 'Show the building list', gripClose: 'Collapse the panel',
+    'st.todo': 'elevator buildings to do', 'st.done': 'done this round', 'st.flyers': 'flyers needed (estimate)',
+    scope: 'Within {r} km of the restaurant', scopeNoUnits: ' · {n} with no unit estimate',
+    'tab.todo': 'To do', 'tab.check': 'Check', 'tab.done': 'Done', 'tab.stop': 'No flyers',
+    search: 'Search a street or building', loadingList: 'Loading buildings…',
+    addBtn: 'Add a missing building', roundBtn: 'Start a new round',
+    aboutEst: 'Elevators are estimated from floor counts on OpenStreetMap: 5 storeys or more counts as "likely". When staff mark a building as having an elevator or not, that answer replaces the estimate for everyone.',
+    mapData: 'Map data © {link}, downloaded Oct 23, 2026.', osmContrib: 'OpenStreetMap contributors',
+    mapAria: 'Map of apartment buildings around the restaurant', radiusAria: 'Distance from the restaurant', kmBtn: '{n} km',
+    homeAria: 'Center on the restaurant', home: 'Restaurant', key: 'Key',
+    'legend.title': 'What the colours mean', 'legend.likely': 'Elevator, drop flyers. The number is the floor count.',
+    'legend.check': 'Not sure. Check for an elevator at the door.', 'legend.done': 'Flyers delivered this round',
+    'legend.stop': "Building doesn't allow flyers", 'legend.no': 'No elevator. Skip it.',
+    'legend.rings': 'Dashed rings mark 1, 2 and 3 km from the restaurant.',
+    addbar: 'Tap the map where the building is', addbarMove: 'Tap again to move the pin', cancel: 'Cancel',
+    loadingMap: 'Loading the map…', loadFail: "Couldn't load the map data. Reload the page to try again.",
+    restaurant: 'Restaurant', restaurantToast: 'Restaurant · {addr}', noAddr: 'Address not on the map',
+    m: '{n} m', km: '{n} km', walk: 'about {n} min walk', today: 'today', yesterday: 'yesterday',
+    units: '≈ {n} units', floorsN: '{n} floors', floorsUnknown: 'floors unknown', doneOn: 'done {d}',
+    'kind.seniors': "Seniors' residence", 'kind.student': 'Student residence', 'kind.apt': 'Apartment building',
+    'help.todo': "Buildings that likely have an elevator and haven't had flyers this round. Closest first.",
+    'help.check': "The map doesn't say whether these have an elevator. When you're there, mark them so everyone knows.",
+    'help.done': 'Flyers delivered since the current round started.', 'help.stop': "Buildings that don't allow flyers.",
+    'empty.search': 'No buildings match that search.',
+    'empty.todo': 'Nothing left to do in this area. Widen the distance or start a new round.',
+    'empty.check': 'No unconfirmed buildings in this area.', 'empty.done': 'No flyers delivered yet this round.',
+    'empty.stop': 'No buildings have been marked as not allowing flyers.',
+    'round.info': 'This round started {d}.', 'round.infoBy': 'This round started {d} by {name}.',
+    'round.none': 'No round started yet, so every delivery counts as done.',
+    'round.confirm': 'Start a new round? Every elevator building goes back to <b>To do</b>. Past delivery dates and notes are kept.',
+    'round.local': ' This only changes this phone.', 'round.go': 'Start new round',
+    'round.started': 'New round started. Everything is back to To do.',
+    back: '‹ All buildings', 'no.kicker': 'No elevator', 'no.title': 'Skip this building',
+    'no.staff': 'A staff member marked this building as having no elevator.', wrong: 'Is that wrong?',
+    'btn.elevYes': 'It has an elevator', 'btn.reset': 'Go back to the map estimate', 'btn.removeCustom': 'Remove this added building',
+    'check.kicker': 'Elevator not confirmed', 'check.hidden': "Details stay hidden until someone confirms there's an elevator.",
+    'check.q': 'Does it have an elevator?', 'check.yes': 'Yes, it has one', 'check.no': 'No, walk-up',
+    directions: 'Directions', copyAddr: 'Copy address',
+    'kick.stop': 'Flyers not allowed', 'kick.confirmed': 'Elevator confirmed by staff', 'kick.likely': 'Elevator likely',
+    'kick.seniors': " · seniors' residence", 'kick.student': ' · student residence',
+    'status.done': 'Flyers delivered <b>{d}</b>{who}.', 'status.last': 'Last delivered {d}{who}, before this round.',
+    'status.never': 'No flyers delivered here yet.', 'status.stop': "This building doesn't allow flyers. Leave it out.",
+    'btn.unstop': 'Flyers are allowed after all', 'btn.undo': 'Undo delivered', 'btn.done': 'Mark flyers delivered', 'btn.stop': 'No flyers allowed',
+    'fact.floors': 'Floors', 'fact.units': 'Units', 'fact.unitsEst': 'estimate from building size', 'fact.unknown': 'Unknown',
+    'fact.from': 'From restaurant', 'fact.elev': 'Elevator', 'fact.confirmed': 'Confirmed', 'fact.likely': 'Likely',
+    'fact.added': 'Added by staff', 'fact.marked': 'Marked by staff', 'fact.storeys': '{n} storeys', 'fact.fromType': 'from building type',
+    'fact.manager': 'Building manager', 'fact.website': 'Website',
+    'notes.label': 'Notes for the team', 'notes.ph': 'Where to leave flyers, which door to use, who to ask at the front desk…',
+    'notes.save': 'Save note', 'notes.updated': 'Updated {d}', 'notes.updatedBy': 'Updated {d} by {name}',
+    'fix.custom': 'Added by staff.', 'fix.q': 'Is the elevator info wrong?', 'btn.noElev': "There's no elevator",
+    'del.q': 'Remove <b>{name}</b> from the map{all}?', 'del.all': ' for everyone', 'del.go': 'Remove', 'del.keep': 'Keep it',
+    src: 'Building data from OpenStreetMap · {link}', srcLink: 'view the source',
+    'toast.done': 'Marked as delivered.', 'toast.undo': 'Delivery undone.', 'toast.stop': 'Marked as not allowing flyers.',
+    'toast.elevYes': 'Thanks. Marked as having an elevator.', 'toast.elevNo': 'Marked as no elevator. Details are now hidden.',
+    'toast.noChange': 'No changes to save.', 'toast.noteSaved': 'Note saved.', 'toast.copied': 'Address copied.',
+    'toast.selected': 'Address selected. Copy it from the menu.', 'toast.removed': 'Building removed.', 'toast.added': 'Building added.',
+    'toast.refusedSite': 'The team database refused that change, so it was saved on this phone only.',
+    'toast.refusedClaude': "This account can't change the team's data, so that was saved on this phone only.",
+    'toast.full': 'The shared storage is full. Remove some added buildings and try again.',
+    'toast.saveFail': "Couldn't save just now. Check the connection and try again.",
+    'toast.lost': 'Lost the connection to team progress. Reload the page to reconnect.',
+    'add.kicker': 'Add a missing building', 'add.title': 'New building, {d} away',
+    'add.note': "Use this for buildings that aren't on the map yet. Everyone with access will see it.",
+    'add.addr': 'Street address', 'add.addrPh': 'e.g. 100 Centrepointe Dr', 'add.name': 'Building name (optional)',
+    'add.floors': 'Floors', 'add.units': 'About how many units? (optional)', 'add.elev': 'Elevator',
+    'add.elevYes': 'Has an elevator', 'add.elevNo': 'No elevator', 'add.note2': 'Note (optional)', 'add.submit': 'Add building',
+    'add.cancel': '‹ Cancel',
+    'why.custom': 'Added by staff.', 'why.seniors': "Seniors' residence, {n} storeys. These nearly always have elevators.",
+    'why.tall': '{n} storeys. Buildings this tall almost always have an elevator.',
+    'why.four': '4 storeys. Some 4-storey buildings are walk-ups, so check at the door.',
+    'why.unknown': 'Floor count is not on the map. Check at the door.',
+    'why.small': 'Small building, most likely a walk-up or townhouse block.',
+    'why.low': '{n} storeys, a walk-up or townhouse block.',
+    'who.by': ' by {name}', 'who.you': 'you',
+  },
+  zh: {
+    docTitle: 'Centrepointe 传单地图', brand: '传单地图', sub: '261 Centrepointe Dr 附近有电梯的公寓楼',
+    langBtn: 'EN', langAria: '切换为英文', panelAria: '楼宇',
+    'sync.pending': '连接中…', 'sync.shared': '团队同步中', 'sync.readonly': '团队数据只读', 'sync.local': '仅保存在本机',
+    'info.shared': '标记和备注会与所有拥有此链接的人共享，并实时更新。',
+    'info.readonly': '你可以看到团队的标记，但你自己的标记只保存在本机。请让负责人邀请你成为编辑者，才能共享。',
+    'info.localClaude': '标记只保存在本机。要与团队共享进度，请登录有编辑权限的 claude.ai 账号后打开此链接。',
+    'info.local': '标记只保存在本设备上，每部手机各自记录。',
+    gripOpen: '显示楼宇列表', gripClose: '收起面板',
+    'st.todo': '待派发的电梯楼', 'st.done': '本轮已完成', 'st.flyers': '所需传单（估计）',
+    scope: '距餐厅 {r} 公里以内', scopeNoUnits: ' · {n} 栋没有户数估计',
+    'tab.todo': '待派发', 'tab.check': '待确认', 'tab.done': '已完成', 'tab.stop': '禁止派发',
+    search: '搜索街道或楼名', loadingList: '正在加载楼宇…',
+    addBtn: '添加地图上没有的楼', roundBtn: '开始新一轮',
+    aboutEst: '电梯情况是根据 OpenStreetMap 上的楼层数估计的：5 层及以上算作“可能有电梯”。员工标记某栋楼有没有电梯后，这个答案会取代估计，所有人都能看到。',
+    mapData: '地图数据 © {link}，下载于 2026 年 10 月 23 日。', osmContrib: 'OpenStreetMap 贡献者',
+    mapAria: '餐厅周边公寓楼地图', radiusAria: '与餐厅的距离', kmBtn: '{n} 公里',
+    homeAria: '回到餐厅', home: '餐厅', key: '图例',
+    'legend.title': '颜色说明', 'legend.likely': '有电梯，可以派发。数字是楼层数。',
+    'legend.check': '不确定，到门口看看有没有电梯。', 'legend.done': '本轮已派发',
+    'legend.stop': '该楼不允许派发传单', 'legend.no': '没有电梯，跳过。',
+    'legend.rings': '虚线圆圈表示距餐厅 1、2、3 公里。',
+    addbar: '在地图上点选楼的位置', addbarMove: '再点一次可以移动标记', cancel: '取消',
+    loadingMap: '正在加载地图…', loadFail: '地图数据加载失败，请刷新页面重试。',
+    restaurant: '餐厅', restaurantToast: '餐厅 · {addr}', noAddr: '地图上没有地址',
+    m: '{n} 米', km: '{n} 公里', walk: '步行约 {n} 分钟', today: '今天', yesterday: '昨天',
+    units: '约 {n} 户', floorsN: '{n} 层', floorsUnknown: '楼层不详', doneOn: '{d}完成',
+    'kind.seniors': '老年公寓', 'kind.student': '学生宿舍', 'kind.apt': '公寓楼',
+    'help.todo': '可能有电梯、本轮还没派发的楼，按距离由近到远排列。',
+    'help.check': '地图无法确定这些楼有没有电梯。到现场后请标记一下，方便大家知道。',
+    'help.done': '本轮开始以来已派发的楼。', 'help.stop': '不允许派发传单的楼。',
+    'empty.search': '没有符合搜索的楼。',
+    'empty.todo': '这个范围内已全部完成。可以扩大距离，或开始新一轮。',
+    'empty.check': '这个范围内没有待确认的楼。', 'empty.done': '本轮还没有派发记录。',
+    'empty.stop': '还没有楼被标记为禁止派发。',
+    'round.info': '本轮开始于{d}。', 'round.infoBy': '本轮由 {name} 于{d}开始。',
+    'round.none': '还没有开始新一轮，所有派发记录都算已完成。',
+    'round.confirm': '要开始新一轮吗？所有电梯楼都会回到<b>待派发</b>，以前的派发日期和备注会保留。',
+    'round.local': '这只会改变本机上的数据。', 'round.go': '开始新一轮',
+    'round.started': '新一轮已开始，全部回到待派发。',
+    back: '‹ 全部楼宇', 'no.kicker': '没有电梯', 'no.title': '跳过这栋楼',
+    'no.staff': '有员工标记这栋楼没有电梯。', wrong: '信息有误？',
+    'btn.elevYes': '其实有电梯', 'btn.reset': '恢复为地图估计', 'btn.removeCustom': '删除这栋手动添加的楼',
+    'check.kicker': '电梯未确认', 'check.hidden': '有人确认有电梯后，才会显示详细信息。',
+    'check.q': '这栋楼有电梯吗？', 'check.yes': '有电梯', 'check.no': '没有，要走楼梯',
+    directions: '导航', copyAddr: '复制地址',
+    'kick.stop': '禁止派发', 'kick.confirmed': '员工已确认有电梯', 'kick.likely': '可能有电梯',
+    'kick.seniors': ' · 老年公寓', 'kick.student': ' · 学生宿舍',
+    'status.done': '<b>{d}</b>已派发{who}。', 'status.last': '上次派发：{d}{who}，在本轮之前。',
+    'status.never': '这里还没有派发过传单。', 'status.stop': '这栋楼不允许派发传单，请跳过。',
+    'btn.unstop': '其实可以派发', 'btn.undo': '撤销已派发', 'btn.done': '标记为已派发', 'btn.stop': '禁止派发',
+    'fact.floors': '楼层', 'fact.units': '户数', 'fact.unitsEst': '根据楼的大小估计', 'fact.unknown': '不详',
+    'fact.from': '距餐厅', 'fact.elev': '电梯', 'fact.confirmed': '已确认', 'fact.likely': '可能有',
+    'fact.added': '员工添加', 'fact.marked': '员工标记', 'fact.storeys': '{n} 层', 'fact.fromType': '根据楼的类型',
+    'fact.manager': '物业管理', 'fact.website': '网站',
+    'notes.label': '给团队的备注', 'notes.ph': '传单放在哪里、走哪个门、前台找谁……',
+    'notes.save': '保存备注', 'notes.updated': '更新于{d}', 'notes.updatedBy': '{name} 更新于{d}',
+    'fix.custom': '由员工添加。', 'fix.q': '电梯信息有误？', 'btn.noElev': '这里没有电梯',
+    'del.q': '要从地图上删除<b>{name}</b>吗{all}？', 'del.all': '（所有人都会看不到）', 'del.go': '删除', 'del.keep': '保留',
+    src: '楼宇数据来自 OpenStreetMap · {link}', srcLink: '查看来源',
+    'toast.done': '已标记为已派发。', 'toast.undo': '已撤销派发。', 'toast.stop': '已标记为禁止派发。',
+    'toast.elevYes': '谢谢，已标记为有电梯。', 'toast.elevNo': '已标记为没有电梯，详细信息已隐藏。',
+    'toast.noChange': '没有需要保存的修改。', 'toast.noteSaved': '备注已保存。', 'toast.copied': '地址已复制。',
+    'toast.selected': '地址已选中，请从菜单中复制。', 'toast.removed': '已删除这栋楼。', 'toast.added': '已添加这栋楼。',
+    'toast.refusedSite': '团队数据库拒绝了这次修改，所以只保存在本机。',
+    'toast.refusedClaude': '这个账号不能修改团队数据，所以只保存在本机。',
+    'toast.full': '共享存储已满，请删除一些手动添加的楼后再试。',
+    'toast.saveFail': '暂时无法保存，请检查网络后重试。',
+    'toast.lost': '与团队进度的连接已断开，请刷新页面重新连接。',
+    'add.kicker': '添加地图上没有的楼', 'add.title': '新楼，距餐厅 {d}',
+    'add.note': '用于地图上还没有的楼，所有有权限的人都能看到。',
+    'add.addr': '街道地址', 'add.addrPh': '例如 100 Centrepointe Dr', 'add.name': '楼名（可选）',
+    'add.floors': '楼层数', 'add.units': '大约多少户？（可选）', 'add.elev': '电梯',
+    'add.elevYes': '有电梯', 'add.elevNo': '没有电梯', 'add.note2': '备注（可选）', 'add.submit': '添加',
+    'add.cancel': '‹ 取消',
+    'why.custom': '由员工添加。', 'why.seniors': '老年公寓，{n} 层。这类楼几乎都有电梯。',
+    'why.tall': '{n} 层。这么高的楼几乎都有电梯。',
+    'why.four': '4 层。有些 4 层楼没有电梯，请到门口确认。',
+    'why.unknown': '地图上没有楼层数据，请到门口确认。',
+    'why.small': '小型楼，多半是没有电梯的步行楼或联排屋。',
+    'why.low': '{n} 层，没有电梯的步行楼或联排屋。',
+    'who.by': '（{name}）', 'who.you': '你',
+  },
+};
+let LANG = prefs.lang === 'zh' || prefs.lang === 'en' ? prefs.lang
+  : (/^zh\b/i.test(navigator.language || '') ? 'zh' : 'en');
+function t(key, vars) {
+  const s = (I18N[LANG] && I18N[LANG][key]) ?? I18N.en[key] ?? key;
+  return vars ? s.replace(/\{(\w+)\}/g, (_, k) => (vars[k] ?? '')) : s;
+}
+function applyStatic() {
+  document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en';
+  document.title = t('docTitle');
+  for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
+  for (const el of document.querySelectorAll('[data-i18n-ph]')) el.placeholder = t(el.dataset.i18nPh);
+  for (const el of document.querySelectorAll('[data-i18n-aria]')) el.setAttribute('aria-label', t(el.dataset.i18nAria));
+  for (const b of $('#radius').children) b.textContent = t('kmBtn', { n: +b.dataset.r / 1000 });
+  $('#map-data').innerHTML = t('mapData', { link: `<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">${esc(t('osmContrib'))}</a>` });
+  const lb = $('#lang-btn');
+  lb.textContent = t('langBtn');
+  lb.setAttribute('lang', LANG === 'zh' ? 'en' : 'zh-CN');
+  lb.setAttribute('aria-label', t('langAria'));
+}
 
 /* ------------------------------------------------------------------ theme tokens for the canvas base map */
 const TOK = ['m-land','m-bld','m-bld-edge','m-road','m-major','m-casing','m-major-casing','m-path','m-water','m-park','m-wood','m-grass','m-pitch','m-rail','m-label','m-halo'];
@@ -385,10 +566,10 @@ const abbr = s => ABBR.reduce((a, [re, r]) => a.replace(re, r), s || '');
 function addrOf(b) {
   const n = b.num || [];
   const nums = n.length > 2 ? `${n[0]}–${n[n.length - 1]}` : n.join(' & ');
-  return [nums, abbr(b.street)].filter(Boolean).join(' ') || 'Address not on the map';
+  return [nums, abbr(b.street)].filter(Boolean).join(' ') || t('noAddr');
 }
 const titleOf = b => b.name || addrOf(b);
-const km = m => m < 1000 ? `${Math.round(m / 10) * 10} m` : `${(m / 1000).toFixed(1)} km`;
+const km = m => m < 1000 ? t('m', { n: Math.round(m / 10) * 10 }) : t('km', { n: (m / 1000).toFixed(1) });
 const walkMin = m => Math.max(1, Math.round(m * 1.3 / 80));
 const fmtN = n => n.toLocaleString('en-CA');
 function fmtDay(ms) {
@@ -396,9 +577,16 @@ function fmtDay(ms) {
   const d = new Date(ms), now = new Date();
   const day = x => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
   const diff = Math.round((day(now) - day(d)) / 864e5);
-  if (diff === 0) return 'today';
-  if (diff === 1) return 'yesterday';
-  return d.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: d.getFullYear() === now.getFullYear() ? undefined : 'numeric' });
+  if (diff === 0) return t('today');
+  if (diff === 1) return t('yesterday');
+  return d.toLocaleDateString(LANG === 'zh' ? 'zh-CN' : 'en-CA', { month: 'short', day: 'numeric', year: d.getFullYear() === now.getFullYear() ? undefined : 'numeric' });
+}
+function whyText(it) {
+  if (it.custom) return t('why.custom');
+  const f = it.floors;
+  if (it.elev === 'likely') return it.kind === 'seniors' ? t('why.seniors', { n: f }) : t('why.tall', { n: f });
+  if (it.elev === 'unsure') return f === 4 ? t('why.four') : t('why.unknown');
+  return f == null ? t('why.small') : t('why.low', { n: f });
 }
 const ICON_ELEV = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2 9.4 5H2.6zM6 10.8 2.6 7h6.8z" fill="currentColor"/></svg>';
 const ICON_CHECK = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.4 5 8.8 9.6 3.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -444,11 +632,11 @@ async function save(kind, id, data, del) {
       if (e && (e.code === 'invalid_argument' || e.code === 'not_granted' || e.code === 'revoked' || e.code === 'permission-denied')) {
         setMode('readonly');
         saveLocalOnly(kind, id, data, del);
-        toast(SITE ? "The team database refused that change, so it was saved on this phone only." : "This account can't change the team's data, so that was saved on this phone only.");
+        toast(t(SITE ? 'toast.refusedSite' : 'toast.refusedClaude'));
       } else if (e && e.code === 'quota_exceeded') {
-        toast('The shared storage is full. Remove some added buildings and try again.');
+        toast(t('toast.full'));
       } else {
-        toast("Couldn't save just now. Check the connection and try again.");
+        toast(t('toast.saveFail'));
       }
     }
     return;
@@ -464,32 +652,22 @@ function stamp(base, patch) {
   return Object.assign({}, base || {}, patch, { updatedAt: Date.now(), updatedBy: S.meId || null });
 }
 
+// The public website (not the Claude page) plugs in its own team database here: see backend.js.
+const SITE = window.FLYER_SITE || null;
+
 function setMode(m) {
   S.mode = m;
   const el = $('#sync');
   el.dataset.mode = m;
-  $('span', el).textContent = {
-    pending: 'Connecting…', shared: 'Team sync on', readonly: 'View-only team data', local: 'Saved on this phone',
-  }[m];
-  $('#mode-info').textContent = (SITE && SITE.modeText && SITE.modeText[m] != null ? SITE.modeText : {
-    pending: '',
-    shared: 'Marks and notes are shared with everyone who has this link, and update live.',
-    readonly: "You can see the team's marks, but your own marks are saved on this phone only. Ask the owner to invite you as an editor to share them.",
-    local: window.claude
-      ? 'Marks are saved on this phone only. To share progress with the team, open the link while signed in to claude.ai with editor access.'
-      : 'Marks are saved on this device only, so each phone keeps its own list.',
-  })[m];
-  el.title = SITE ? '' : {
-    shared: 'Everyone with access sees the same marks and notes, updated live.',
-    readonly: 'You can see what the team has done. To share your own marks, ask the owner to invite you as an editor.',
-    local: 'Open the shared link while signed in to claude.ai to sync progress with the team.',
-  }[m] || '';
-  if (SITE && SITE.render) { try { SITE.render($('#site-extra'), m); } catch (e) { console.error(e); } }
+  $('span', el).textContent = t('sync.' + m);
+  const siteText = SITE && SITE.modeText && (SITE.modeText[LANG] || SITE.modeText.en);
+  $('#mode-info').textContent = siteText && siteText[m] != null ? siteText[m]
+    : m === 'pending' ? ''
+    : m === 'local' ? t(window.claude ? 'info.localClaude' : 'info.local')
+    : t('info.' + m);
+  if (SITE && SITE.render) { try { SITE.render($('#site-extra'), m, LANG); } catch (e) { console.error(e); } }
   renderAll();
 }
-
-// The public website (not the Claude page) plugs in its own team database here: see backend.js.
-const SITE = window.FLYER_SITE || null;
 
 async function initStore() {
   let db = null, user = null;
@@ -508,7 +686,7 @@ async function initStore() {
   let canWrite = null;
   if (user && !SITE) { try { canWrite = await user.can('data.write'); } catch {} }
   setMode(canWrite === false ? 'readonly' : 'shared');
-  const onErr = () => { if (S.mode !== 'local') { toast('Lost the connection to team progress. Reload the page to reconnect.'); } };
+  const onErr = () => { if (S.mode !== 'local') toast(t('toast.lost')); };
   db.collection('buildings').limit(1000).onSnapshot(snap => {
     const m = {}; for (const d of snap.docs) m[d.id] = d.data(); S.remote.b = m; renderAll();
   }, onErr);
@@ -519,14 +697,13 @@ async function initStore() {
 }
 
 /* ------------------------------------------------------------------ the buildings */
-let BUILDINGS = [];        // from buildings.json
 let ITEMS = [];            // buildings + staff-added ones
 const BY_ID = new Map();
 
 function itemFromCustom(id, c) {
   const dist = Math.round(L.latLng(R_LAT, R_LON).distanceTo([c.lat, c.lng]));
   return { id, custom: true, src: c, name: c.name || '', num: [], street: c.address || '', postcode: '', floors: c.floors || null,
-    kind: 'apartment', elev: c.elevator === 'no' ? 'no' : 'likely', why: 'Added by staff.', units: c.units || null,
+    kind: 'apartment', elev: c.elevator === 'no' ? 'no' : 'likely', units: c.units || null,
     dist, c: [c.lat, c.lng], manager: '', phone: '', web: '' };
 }
 function customSource() {
@@ -691,14 +868,14 @@ new MutationObserver(redrawBase).observe(document.documentElement, { attributes:
 /* --- restaurant + distance rings */
 const RINGS = [1000, 2000, 3000];
 const ringLayers = RINGS.map(r => L.circle([R_LAT, R_LON], { radius: r, className: 'ring', interactive: false }).addTo(map));
-RINGS.forEach(r => {
-  const p = L.latLng(R_LAT + r / 111132, R_LON);
-  L.marker(p, { interactive: false, keyboard: false, icon: L.divIcon({ className: 'ringlbl', html: `<span>${r / 1000} km</span>`, iconSize: [0, 0] }) }).addTo(map);
-});
-L.marker([R_LAT, R_LON], { keyboard: false, zIndexOffset: 1000, title: 'Restaurant · ' + RESTAURANT,
-  icon: L.divIcon({ className: 'resto', iconSize: [0, 0], html:
-    `<div class="pin"><span class="lbl">Restaurant</span><span class="dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5h18a9 9 0 0 1-18 0Z" fill="currentColor"/><path d="M8 3.5c-1 1.4 1 2.4 0 4.2M12 3.5c-1 1.4 1 2.4 0 4.2M16 3.5c-1 1.4 1 2.4 0 4.2" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg></span></div>` }) })
-  .on('click', () => toast('Restaurant · ' + RESTAURANT)).addTo(map);
+const ringLabels = RINGS.map(r => L.marker(L.latLng(R_LAT + r / 111132, R_LON), { interactive: false, keyboard: false, icon: L.divIcon({ className: 'ringlbl', html: '', iconSize: [0, 0] }) }).addTo(map));
+const restoMarker = L.marker([R_LAT, R_LON], { keyboard: false, zIndexOffset: 1000, title: RESTAURANT, icon: L.divIcon({ className: 'resto', iconSize: [0, 0], html: '' }) })
+  .on('click', () => toast(t('restaurantToast', { addr: RESTAURANT }))).addTo(map);
+function drawMarkers() {
+  ringLabels.forEach((mk, i) => mk.setIcon(L.divIcon({ className: 'ringlbl', html: `<span>${esc(t('km', { n: RINGS[i] / 1000 }))}</span>`, iconSize: [0, 0] })));
+  restoMarker.setIcon(L.divIcon({ className: 'resto', iconSize: [0, 0], html:
+    `<div class="pin"><span class="lbl">${esc(t('restaurant'))}</span><span class="dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5h18a9 9 0 0 1-18 0Z" fill="currentColor"/><path d="M8 3.5c-1 1.4 1 2.4 0 4.2M12 3.5c-1 1.4 1 2.4 0 4.2M16 3.5c-1 1.4 1 2.4 0 4.2" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg></span></div>` }));
+}
 
 /* --- building shapes + badges */
 const LAYERS = new Map();   // id -> { poly, tag }
@@ -770,7 +947,7 @@ let view = 'list';
 function setSheet(size) {
   panel.dataset.size = size;
   $('#grip').setAttribute('aria-expanded', String(size === 'open'));
-  $('#grip').setAttribute('aria-label', size === 'open' ? 'Collapse the panel' : 'Show the building list');
+  $('#grip').setAttribute('aria-label', t(size === 'open' ? 'gripClose' : 'gripOpen'));
   setTimeout(() => map.invalidateSize({ pan: false }), 260);
 }
 $('#grip').addEventListener('click', () => setSheet(panel.dataset.size === 'open' ? 'peek' : 'open'));
@@ -787,20 +964,13 @@ function counts() {
   const c = { todo: 0, check: 0, done: 0, stop: 0, flyers: 0, unknownUnits: 0 };
   for (const it of ITEMS) {
     if (it.dist > prefs.radius) continue;
-    const f = eff(it), t = tabOf(it, f);
-    if (!t) continue;
-    c[t]++;
-    if (t === 'todo') { if (it.units) c.flyers += it.units; else c.unknownUnits++; }
+    const f = eff(it), tb = tabOf(it, f);
+    if (!tb) continue;
+    c[tb]++;
+    if (tb === 'todo') { if (it.units) c.flyers += it.units; else c.unknownUnits++; }
   }
   return c;
 }
-
-const TABHELP = {
-  todo: 'Buildings that likely have an elevator and haven\'t had flyers this round. Closest first.',
-  check: 'The map doesn\'t say whether these have an elevator. When you\'re there, mark them so everyone knows.',
-  done: 'Flyers delivered since the current round started.',
-  stop: 'Buildings that don\'t allow flyers.',
-};
 
 function renderList() {
   if (!ITEMS.length) return;
@@ -808,10 +978,10 @@ function renderList() {
   $('#st-todo').textContent = c.todo;
   $('#st-done').textContent = c.done;
   $('#st-flyers').textContent = c.todo ? '≈ ' + fmtN(c.flyers) + (c.unknownUnits ? '+' : '') : '0';
-  $('#scope').textContent = `Within ${prefs.radius / 1000} km of the restaurant` + (c.unknownUnits ? ` · ${c.unknownUnits} building${c.unknownUnits > 1 ? 's' : ''} with no unit estimate` : '');
+  $('#scope').textContent = t('scope', { r: prefs.radius / 1000 }) + (c.unknownUnits ? t('scopeNoUnits', { n: c.unknownUnits }) : '');
   for (const k of ['todo', 'check', 'done', 'stop']) $('#n-' + k).textContent = c[k];
   for (const b of $('#tabs').children) b.setAttribute('aria-selected', String(b.dataset.tab === prefs.tab));
-  $('#tabhelp').textContent = TABHELP[prefs.tab];
+  $('#tabhelp').textContent = t('help.' + prefs.tab);
 
   const q = $('#q').value.trim().toLowerCase();
   const rows = [];
@@ -825,22 +995,18 @@ function renderList() {
   rows.sort((a, b) => a[0].dist - b[0].dist);
   const list = $('#list');
   if (!rows.length) {
-    list.innerHTML = `<li class="empty">${q ? 'No buildings match that search.' : {
-      todo: 'Nothing left to do in this area. Widen the distance or start a new round.',
-      check: 'No unconfirmed buildings in this area.',
-      done: 'No flyers delivered yet this round.',
-      stop: 'No buildings have been marked as not allowing flyers.' }[prefs.tab]}</li>`;
+    list.innerHTML = `<li class="empty">${esc(t(q ? 'empty.search' : 'empty.' + prefs.tab))}</li>`;
     return;
   }
   list.innerHTML = rows.map(([it, f]) => {
-    const sub = it.name ? addrOf(it) : (it.kind === 'seniors' ? "Seniors' residence" : it.kind === 'student' ? 'Student residence' : (it.manager || 'Apartment building'));
-    const meta2 = f.elev === 'check' ? (it.floors ? `${it.floors} floors` : 'floors unknown')
-      : f.status === 'done' ? `done ${fmtDay(f.d.doneAt)}`
-      : it.units ? `≈ ${fmtN(it.units)} units` : (it.floors ? `${it.floors} floors` : '');
+    const sub = it.name ? addrOf(it) : (it.kind === 'seniors' ? t('kind.seniors') : it.kind === 'student' ? t('kind.student') : (it.manager || t('kind.apt')));
+    const meta2 = f.elev === 'check' ? (it.floors ? t('floorsN', { n: it.floors }) : t('floorsUnknown'))
+      : f.status === 'done' ? t('doneOn', { d: fmtDay(f.d.doneAt) })
+      : it.units ? t('units', { n: fmtN(it.units) }) : (it.floors ? t('floorsN', { n: it.floors }) : '');
     return `<li><button class="row" data-id="${esc(it.id)}" type="button">
       <span class="${tagClass(it, f).replace(' sel', '')}">${tagHTML(it, f)}</span>
       <span class="row-main"><b>${esc(titleOf(it))}</b><small>${esc(sub)}</small></span>
-      <span class="row-meta"><b>${km(it.dist)}</b><small>${esc(meta2)}</small></span></button></li>`;
+      <span class="row-meta"><b>${esc(km(it.dist))}</b><small>${esc(meta2)}</small></span></button></li>`;
   }).join('');
 }
 $('#list').addEventListener('click', e => { const b = e.target.closest('.row'); if (b) select(b.dataset.id, true); });
@@ -851,20 +1017,23 @@ $('#q').addEventListener('input', renderList);
 function renderRound() {
   const r = roundStart();
   const info = $('#round-info');
-  info.textContent = r ? `This round started ${fmtDay(r.startedAt)}.` : 'No round started yet, so every delivery counts as done.';
-  if (r && r.startedBy && S.user) S.user.profiles([r.startedBy]).then(ps => { const n = ps[r.startedBy] && ps[r.startedBy].name; if (n && roundStart() === r) info.textContent = `This round started ${fmtDay(r.startedAt)} by ${n}.`; }).catch(() => {});
+  info.textContent = r ? t('round.info', { d: fmtDay(r.startedAt) }) : t('round.none');
+  if (r && r.startedBy && S.user) S.user.profiles([r.startedBy]).then(ps => {
+    const n = ps[r.startedBy] && ps[r.startedBy].name;
+    if (n && roundStart() === r) info.textContent = t('round.infoBy', { d: fmtDay(r.startedAt), name: n });
+  }).catch(() => {});
   $('#round-btn').disabled = S.mode === 'pending';
 }
 $('#round-btn').addEventListener('click', () => {
   const box = $('#round-confirm');
   box.hidden = false;
-  box.innerHTML = `<div class="confirm"><p>Start a new round? Every elevator building goes back to <b>To do</b>. Past delivery dates and notes are kept.${S.mode !== 'shared' ? ' This only changes this phone.' : ''}</p>
-    <div class="actions"><button class="btn primary" type="button" data-act="go">Start new round</button><button class="btn" type="button" data-act="no">Cancel</button></div></div>`;
+  box.innerHTML = `<div class="confirm"><p>${t('round.confirm')}${S.mode !== 'shared' ? esc(t('round.local')) : ''}</p>
+    <div class="actions"><button class="btn primary" type="button" data-act="go">${esc(t('round.go'))}</button><button class="btn" type="button" data-act="no">${esc(t('cancel'))}</button></div></div>`;
 });
 $('#round-confirm').addEventListener('click', e => {
   const a = e.target.closest('[data-act]'); if (!a) return;
   $('#round-confirm').hidden = true;
-  if (a.dataset.act === 'go') { save('round', null, { startedAt: Date.now(), startedBy: S.meId || null, updatedAt: Date.now() }); toast('New round started. Everything is back to To do.'); }
+  if (a.dataset.act === 'go') { save('round', null, { startedAt: Date.now(), startedBy: S.meId || null, updatedAt: Date.now() }); toast(t('round.started')); }
 });
 
 /* ------------------------------------------------------------------ detail view */
@@ -875,125 +1044,132 @@ function renderDetail() {
   const it = BY_ID.get(selected); if (!it) return;
   const f = eff(it), d = f.d;
   const box = $('#v-detail');
-  const dir = `<a class="btn" href="${directionsURL(it)}" target="_blank" rel="noopener">${ICON_DIR}Directions</a>`;
-  const ready = S.mode !== 'pending';
-  const dis = ready ? '' : ' disabled';
+  const dir = `<a class="btn" href="${directionsURL(it)}" target="_blank" rel="noopener">${ICON_DIR}${esc(t('directions'))}</a>`;
+  const copy = `<button class="btn" type="button" data-act="copy">${ICON_COPY}${esc(t('copyAddr'))}</button>`;
+  const back = `<button class="back" type="button" data-act="back">${esc(t('back'))}</button>`;
+  const dis = S.mode !== 'pending' ? '' : ' disabled';
 
   if (f.elev === 'no' && f.status !== 'stop') {
-    box.innerHTML = `<button class="back" type="button" data-act="back">‹ All buildings</button>
-      <div class="kicker">No elevator</div>
-      <h2 class="dtitle">Skip this building</h2>
+    box.innerHTML = `${back}
+      <div class="kicker">${esc(t('no.kicker'))}</div>
+      <h2 class="dtitle">${esc(t('no.title'))}</h2>
       <p class="daddr">${esc(addrOf(it))}</p>
-      <p class="note" style="margin-top:10px">${esc(f.confirmed ? 'A staff member marked this building as having no elevator.' : it.why)}</p>
-      <div class="fix"><span>Is that wrong?</span><div class="actions">
-        <button class="btn" type="button" data-act="elev-yes"${dis}>It has an elevator</button>
-        ${f.confirmed && !it.custom ? `<button class="btn" type="button" data-act="elev-reset"${dis}>Go back to the map estimate</button>` : ''}
-        ${it.custom ? `<button class="btn warn" type="button" data-act="del"${dis}>Remove this added building</button>` : ''}</div></div>`;
+      <p class="note" style="margin-top:10px">${esc(f.confirmed && !it.custom ? t('no.staff') : whyText(it))}</p>
+      <div class="fix"><span>${esc(t('wrong'))}</span><div class="actions">
+        <button class="btn" type="button" data-act="elev-yes"${dis}>${esc(t('btn.elevYes'))}</button>
+        ${f.confirmed && !it.custom ? `<button class="btn" type="button" data-act="elev-reset"${dis}>${esc(t('btn.reset'))}</button>` : ''}
+        ${it.custom ? `<button class="btn warn" type="button" data-act="del"${dis}>${esc(t('btn.removeCustom'))}</button>` : ''}</div></div>
+      <div id="del-confirm" hidden></div>`;
     return;
   }
 
   if (f.elev === 'check' && f.status !== 'stop') {
-    box.innerHTML = `<button class="back" type="button" data-act="back">‹ All buildings</button>
-      <div class="kicker"><span class="tag e-check">?</span>Elevator not confirmed</div>
+    box.innerHTML = `${back}
+      <div class="kicker"><span class="tag e-check">?</span>${esc(t('check.kicker'))}</div>
       <h2 class="dtitle">${esc(titleOf(it))}</h2>
       ${it.name ? `<p class="daddr">${esc(addrOf(it))}</p>` : ''}
-      <p class="note" style="margin-top:10px">${esc(it.why)} Details stay hidden until someone confirms there's an elevator.</p>
-      <div class="status"><p><b>Does it have an elevator?</b></p><div class="actions">
-        <button class="btn primary" type="button" data-act="elev-yes"${dis}>Yes, it has one</button>
-        <button class="btn" type="button" data-act="elev-no"${dis}>No, walk-up</button></div></div>
-      <div class="drow">${dir}<button class="btn" type="button" data-act="copy">${ICON_COPY}Copy address</button></div>`;
+      <p class="note" style="margin-top:10px">${esc(whyText(it))} ${esc(t('check.hidden'))}</p>
+      <div class="status"><p><b>${esc(t('check.q'))}</b></p><div class="actions">
+        <button class="btn primary" type="button" data-act="elev-yes"${dis}>${esc(t('check.yes'))}</button>
+        <button class="btn" type="button" data-act="elev-no"${dis}>${esc(t('check.no'))}</button></div></div>
+      <div class="drow">${dir}${copy}</div>`;
     return;
   }
 
   // elevator building (or one that refuses flyers): full delivery details
-  const kicker = f.status === 'stop' ? 'Flyers not allowed'
-    : (f.confirmed ? 'Elevator confirmed by staff' : 'Elevator likely') + (it.kind === 'seniors' ? " · seniors' residence" : it.kind === 'student' ? ' · student residence' : '');
+  const kicker = f.status === 'stop' ? t('kick.stop')
+    : t(f.confirmed ? 'kick.confirmed' : 'kick.likely') + (it.kind === 'seniors' ? t('kick.seniors') : it.kind === 'student' ? t('kick.student') : '');
+  const who = `<span data-who="${esc(d.doneBy || '')}"></span>`;
   const doneLine = d.doneAt
-    ? (f.status === 'done' ? `Flyers delivered <b>${fmtDay(d.doneAt)}</b><span data-who="${esc(d.doneBy || '')}"></span>.` : `Last delivered ${fmtDay(d.doneAt)}<span data-who="${esc(d.doneBy || '')}"></span>, before this round.`)
-    : 'No flyers delivered here yet.';
+    ? (f.status === 'done' ? t('status.done', { d: esc(fmtDay(d.doneAt)), who }) : t('status.last', { d: esc(fmtDay(d.doneAt)), who }))
+    : esc(t('status.never'));
+  const unknown = esc(t('fact.unknown'));
   const facts = [
-    `<div><dt>Floors</dt><dd>${it.floors ? it.floors : 'Unknown'}</dd></div>`,
-    `<div><dt>Units</dt><dd>${it.units ? '≈ ' + fmtN(it.units) : 'Unknown'}${it.units ? '<small>estimate from building size</small>' : ''}</dd></div>`,
-    `<div><dt>From restaurant</dt><dd>${km(it.dist)}<small>about ${walkMin(it.dist)} min walk</small></dd></div>`,
-    `<div><dt>Elevator</dt><dd>${f.confirmed ? 'Confirmed' : 'Likely'}<small>${esc(f.confirmed ? (it.custom ? 'Added by staff' : 'Marked by staff') : (it.floors ? it.floors + ' storeys' : 'from building type'))}</small></dd></div>`,
+    `<div><dt>${esc(t('fact.floors'))}</dt><dd>${it.floors ? it.floors : unknown}</dd></div>`,
+    `<div><dt>${esc(t('fact.units'))}</dt><dd>${it.units ? '≈ ' + fmtN(it.units) : unknown}${it.units ? `<small>${esc(t('fact.unitsEst'))}</small>` : ''}</dd></div>`,
+    `<div><dt>${esc(t('fact.from'))}</dt><dd>${esc(km(it.dist))}<small>${esc(t('walk', { n: walkMin(it.dist) }))}</small></dd></div>`,
+    `<div><dt>${esc(t('fact.elev'))}</dt><dd>${esc(t(f.confirmed ? 'fact.confirmed' : 'fact.likely'))}<small>${esc(f.confirmed ? t(it.custom ? 'fact.added' : 'fact.marked') : (it.floors ? t('fact.storeys', { n: it.floors }) : t('fact.fromType')))}</small></dd></div>`,
   ];
   if (it.manager || it.phone || it.web) {
-    facts.push(`<div class="full"><dt>Building manager</dt><dd>${esc(it.manager || '—')}${it.phone ? `<small>${esc(it.phone)}</small>` : ''}${it.web ? `<small><a href="${esc(it.web)}" target="_blank" rel="noopener">Website</a></small>` : ''}</dd></div>`);
+    facts.push(`<div class="full"><dt>${esc(t('fact.manager'))}</dt><dd>${esc(it.manager || '—')}${it.phone ? `<small>${esc(it.phone)}</small>` : ''}${it.web ? `<small><a href="${esc(it.web)}" target="_blank" rel="noopener">${esc(t('fact.website'))}</a></small>` : ''}</dd></div>`);
   }
   const statusBox = f.status === 'stop'
-    ? `<div class="status" data-s="stop"><p>This building doesn't allow flyers. Leave it out.</p><div class="actions">
-        <button class="btn" type="button" data-act="unstop"${dis}>Flyers are allowed after all</button></div></div>`
+    ? `<div class="status" data-s="stop"><p>${esc(t('status.stop'))}</p><div class="actions">
+        <button class="btn" type="button" data-act="unstop"${dis}>${esc(t('btn.unstop'))}</button></div></div>`
     : `<div class="status" data-s="${f.status}"><p>${doneLine}</p><div class="actions">
         ${f.status === 'done'
-          ? `<button class="btn" type="button" data-act="undo"${dis}>Undo delivered</button>`
-          : `<button class="btn go" type="button" data-act="done"${dis}>${ICON_CHECK.replace('viewBox', 'width="16" height="16" viewBox')}Mark flyers delivered</button>`}
-        <button class="btn warn" type="button" data-act="stop"${dis}>No flyers allowed</button></div></div>`;
+          ? `<button class="btn" type="button" data-act="undo"${dis}>${esc(t('btn.undo'))}</button>`
+          : `<button class="btn go" type="button" data-act="done"${dis}>${ICON_CHECK.replace('viewBox', 'width="16" height="16" viewBox')}${esc(t('btn.done'))}</button>`}
+        <button class="btn warn" type="button" data-act="stop"${dis}>${esc(t('btn.stop'))}</button></div></div>`;
 
-  box.innerHTML = `<button class="back" type="button" data-act="back">‹ All buildings</button>
+  box.innerHTML = `${back}
     <div class="kicker"><span class="${tagClass(it, f).replace(' sel', '')}">${tagHTML(it, f)}</span>${esc(kicker)}</div>
     <h2 class="dtitle">${esc(titleOf(it))}</h2>
     <p class="daddr">${esc(it.name ? fullAddr(it) : ['Ottawa, ON', it.postcode].filter(Boolean).join(', '))}</p>
-    <div class="drow">${dir}<button class="btn" type="button" data-act="copy">${ICON_COPY}Copy address</button></div>
+    <div class="drow">${dir}${copy}</div>
     ${statusBox}
     <dl class="facts">${facts.join('')}</dl>
-    <div class="field"><label for="note">Notes for the team</label>
-      <textarea id="note" maxlength="1000" placeholder="Where to leave flyers, which door to use, who to ask at the front desk…"></textarea>
-      <div class="meta"><span id="note-meta"></span><button class="btn" type="button" data-act="note"${dis}>Save note</button></div></div>
-    <div class="fix"><span>${it.custom ? 'Added by staff.' : 'Is the elevator info wrong?'}</span><div class="actions">
-      ${it.custom ? `<button class="btn warn" type="button" data-act="del"${dis}>Remove this added building</button>`
-        : `<button class="btn" type="button" data-act="elev-no"${dis}>There's no elevator</button>${f.confirmed ? `<button class="btn" type="button" data-act="elev-reset"${dis}>Go back to the map estimate</button>` : ''}`}
+    <div class="field"><label for="note">${esc(t('notes.label'))}</label>
+      <textarea id="note" maxlength="1000" placeholder="${esc(t('notes.ph'))}"></textarea>
+      <div class="meta"><span id="note-meta"></span><button class="btn" type="button" data-act="note"${dis}>${esc(t('notes.save'))}</button></div></div>
+    <div class="fix"><span>${esc(t(it.custom ? 'fix.custom' : 'fix.q'))}</span><div class="actions">
+      ${it.custom ? `<button class="btn warn" type="button" data-act="del"${dis}>${esc(t('btn.removeCustom'))}</button>`
+        : `<button class="btn" type="button" data-act="elev-no"${dis}>${esc(t('btn.noElev'))}</button>${f.confirmed ? `<button class="btn" type="button" data-act="elev-reset"${dis}>${esc(t('btn.reset'))}</button>` : ''}`}
     </div></div>
     <div id="del-confirm" hidden></div>
-    ${it.custom ? '' : `<p class="src">Building data from OpenStreetMap · <a href="${esc(it.osm)}" target="_blank" rel="noopener">view the source</a></p>`}`;
+    ${it.custom ? '' : `<p class="src">${t('src', { link: `<a href="${esc(it.osm)}" target="_blank" rel="noopener">${esc(t('srcLink'))}</a>` })}</p>`}`;
   const ta = $('#note', box);
   ta.value = d.note || '';
   ta.dataset.orig = d.note || '';
   const meta = $('#note-meta', box);
-  meta.textContent = d.note && d.noteAt ? `Updated ${fmtDay(d.noteAt)}` : '';
-  // resolve names of the people in this record
+  meta.textContent = d.note && d.noteAt ? t('notes.updated', { d: fmtDay(d.noteAt) }) : '';
+  // resolve the names of the people in this record
   const ids = [d.doneBy, d.noteBy].filter(Boolean);
   if (ids.length && S.user) S.user.profiles(ids).then(ps => {
-    for (const el of box.querySelectorAll('[data-who]')) { const p = ps[el.dataset.who]; if (p && p.name) el.textContent = ' by ' + (p.isMe ? 'you' : p.name); }
-    if (d.noteBy && ps[d.noteBy] && ps[d.noteBy].name && d.noteAt) meta.textContent = `Updated ${fmtDay(d.noteAt)} by ${ps[d.noteBy].isMe ? 'you' : ps[d.noteBy].name}`;
+    const nameOf = id => { const p = ps[id]; return p && p.name ? (p.isMe ? t('who.you') : p.name) : ''; };
+    for (const el of box.querySelectorAll('[data-who]')) { const n = nameOf(el.dataset.who); if (n) el.textContent = t('who.by', { name: n }); }
+    const nn = d.noteBy && nameOf(d.noteBy);
+    if (nn && d.noteAt && d.note) meta.textContent = t('notes.updatedBy', { d: fmtDay(d.noteAt), name: nn });
   }).catch(() => {});
 }
 
 function patchItem(it, patch) {
   const kind = it.custom ? 'custom' : 'b';
-  const cur = docFor(it);
-  save(kind, it.id, stamp(cur, patch));
+  save(kind, it.id, stamp(docFor(it), patch));
 }
 $('#v-detail').addEventListener('click', async e => {
   const a = e.target.closest('[data-act]'); if (!a) return;
   const it = BY_ID.get(selected); if (!it) return;
-  const f = eff(it), d = f.d;
+  const d = eff(it).d;
   switch (a.dataset.act) {
     case 'back': deselect(); break;
-    case 'done': patchItem(it, { doneAt: Date.now(), doneBy: S.meId || null, prevDoneAt: d.doneAt || null, prevDoneBy: d.doneBy || null }); toast('Marked as delivered.'); break;
-    case 'undo': patchItem(it, { doneAt: d.prevDoneAt || null, doneBy: d.prevDoneBy || null, prevDoneAt: null, prevDoneBy: null }); toast('Delivery undone.'); break;
-    case 'stop': patchItem(it, { refused: true }); toast('Marked as not allowing flyers.'); break;
+    case 'done': patchItem(it, { doneAt: Date.now(), doneBy: S.meId || null, prevDoneAt: d.doneAt || null, prevDoneBy: d.doneBy || null }); toast(t('toast.done')); break;
+    case 'undo': patchItem(it, { doneAt: d.prevDoneAt || null, doneBy: d.prevDoneBy || null, prevDoneAt: null, prevDoneBy: null }); toast(t('toast.undo')); break;
+    case 'stop': patchItem(it, { refused: true }); toast(t('toast.stop')); break;
     case 'unstop': patchItem(it, { refused: false }); break;
-    case 'elev-yes': patchItem(it, it.custom ? { elevator: 'yes' } : { elevator: 'yes' }); toast('Thanks. Marked as having an elevator.'); break;
-    case 'elev-no': patchItem(it, { elevator: 'no' }); toast('Marked as no elevator. Details are now hidden.'); break;
+    case 'elev-yes': patchItem(it, { elevator: 'yes' }); toast(t('toast.elevYes')); break;
+    case 'elev-no': patchItem(it, { elevator: 'no' }); toast(t('toast.elevNo')); break;
     case 'elev-reset': patchItem(it, { elevator: null }); break;
     case 'note': {
-      const ta = $('#note');
-      const v = ta.value.trim().slice(0, 1000);
-      if (v === (d.note || '')) { toast('No changes to save.'); break; }
-      patchItem(it, { note: v, noteAt: Date.now(), noteBy: S.meId || null }); toast('Note saved.');
+      const v = $('#note').value.trim().slice(0, 1000);
+      if (v === (d.note || '')) { toast(t('toast.noChange')); break; }
+      patchItem(it, { note: v, noteAt: Date.now(), noteBy: S.meId || null }); toast(t('toast.noteSaved'));
       break;
     }
     case 'copy': {
       const text = fullAddr(it);
-      try { await navigator.clipboard.writeText(text); toast('Address copied.'); }
-      catch { const r = document.createRange(); const el = (it.name && $('#v-detail .daddr')) || $('#v-detail .dtitle'); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Address selected. Copy it from the menu.'); }
+      try { await navigator.clipboard.writeText(text); toast(t('toast.copied')); }
+      catch {
+        const r = document.createRange(); const el = (it.name && $('#v-detail .daddr')) || $('#v-detail .dtitle');
+        r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast(t('toast.selected'));
+      }
       break;
     }
     case 'del': {
       const box = $('#del-confirm');
       box.hidden = false;
-      box.innerHTML = `<div class="confirm" style="margin-top:12px"><p>Remove <b>${esc(titleOf(it))}</b> from the map${S.mode === 'shared' ? ' for everyone' : ''}?</p>
-        <div class="actions"><button class="btn warn" type="button" data-act="del-go">Remove</button><button class="btn" type="button" data-act="del-no">Keep it</button></div></div>`;
+      box.innerHTML = `<div class="confirm" style="margin-top:12px"><p>${t('del.q', { name: esc(titleOf(it)), all: S.mode === 'shared' ? esc(t('del.all')) : '' })}</p>
+        <div class="actions"><button class="btn warn" type="button" data-act="del-go">${esc(t('del.go'))}</button><button class="btn" type="button" data-act="del-no">${esc(t('del.keep'))}</button></div></div>`;
       break;
     }
     case 'del-no': $('#del-confirm').hidden = true; break;
@@ -1001,7 +1177,7 @@ $('#v-detail').addEventListener('click', async e => {
       const id = it.id;
       deselect();
       save('custom', id, null, true);
-      toast('Building removed.');
+      toast(t('toast.removed'));
       break;
     }
   }
@@ -1038,65 +1214,78 @@ map.on('click', e => {
 });
 
 /* ------------------------------------------------------------------ add a missing building */
-let adding = false, addPin = null;
+let adding = false, addPin = null, addLatLng = null;
 $('#add-btn').addEventListener('click', () => {
   adding = true;
+  $('#addbar-text').textContent = t('addbar');
   $('#addbar').hidden = false;
   if (!isDesktop()) setSheet('peek');
   map.getContainer().style.cursor = 'crosshair';
 });
 function stopAdding() {
-  adding = false; $('#addbar').hidden = true; map.getContainer().style.cursor = '';
+  adding = false; addLatLng = null; $('#addbar').hidden = true; map.getContainer().style.cursor = '';
   if (addPin) { addPin.remove(); addPin = null; }
 }
 $('#add-cancel').addEventListener('click', () => { stopAdding(); showView(selected ? 'detail' : 'list'); });
+function renderAdd() {
+  if (!addLatLng) return;
+  const dist = Math.round(L.latLng(R_LAT, R_LON).distanceTo(addLatLng));
+  const keep = id => { const el = $('#' + id); return el ? el.value : ''; };
+  const vals = { addr: keep('a-addr'), name: keep('a-name'), floors: keep('a-floors'), units: keep('a-units'), note: keep('a-note'), no: !!($('#a-elev-no') && $('#a-elev-no').checked) };
+  const box = $('#v-add');
+  box.innerHTML = `<button class="back" type="button" data-act="cancel">${esc(t('add.cancel'))}</button>
+    <div class="kicker">${esc(t('add.kicker'))}</div>
+    <h2 class="dtitle">${esc(t('add.title', { d: km(dist) }))}</h2>
+    <p class="note">${esc(t('add.note'))}</p>
+    <form id="add-form">
+      <div class="field"><label for="a-addr">${esc(t('add.addr'))}</label><input id="a-addr" required maxlength="120" placeholder="${esc(t('add.addrPh'))}"></div>
+      <div class="field"><label for="a-name">${esc(t('add.name'))}</label><input id="a-name" maxlength="80"></div>
+      <div class="field"><label for="a-floors">${esc(t('add.floors'))}</label><input id="a-floors" type="number" inputmode="numeric" min="1" max="60"></div>
+      <div class="field"><label for="a-units">${esc(t('add.units'))}</label><input id="a-units" type="number" inputmode="numeric" min="1" max="2000"></div>
+      <div class="field"><span class="lbl">${esc(t('add.elev'))}</span><div class="radios">
+        <label><input type="radio" name="a-elev" id="a-elev-yes" value="yes" checked> ${esc(t('add.elevYes'))}</label>
+        <label><input type="radio" name="a-elev" id="a-elev-no" value="no"> ${esc(t('add.elevNo'))}</label></div></div>
+      <div class="field"><label for="a-note">${esc(t('add.note2'))}</label><textarea id="a-note" maxlength="1000"></textarea></div>
+      <button class="btn primary wide" type="submit">${esc(t('add.submit'))}</button>
+    </form>`;
+  $('#a-addr').value = vals.addr; $('#a-name').value = vals.name; $('#a-floors').value = vals.floors;
+  $('#a-units').value = vals.units; $('#a-note').value = vals.note; if (vals.no) $('#a-elev-no').checked = true;
+}
 function placeAdd(latlng) {
+  const first = !addLatLng;
+  addLatLng = latlng;
   if (addPin) addPin.setLatLng(latlng);
   else addPin = L.marker(latlng, { keyboard: false, interactive: false, icon: L.divIcon({ className: 'tagicon', html: '<span class="pending-pin"></span>', iconSize: [0, 0] }) }).addTo(map);
-  $('#addbar span').textContent = 'Tap again to move the pin';
-  const dist = Math.round(L.latLng(R_LAT, R_LON).distanceTo(latlng));
-  const box = $('#v-add');
-  box.innerHTML = `<button class="back" type="button" data-act="cancel">‹ Cancel</button>
-    <div class="kicker">Add a missing building</div>
-    <h2 class="dtitle">New building, ${km(dist)} away</h2>
-    <p class="note">Use this for buildings that aren't on the map yet. Everyone with access will see it.</p>
-    <form id="add-form">
-      <div class="field"><label for="a-addr">Street address</label><input id="a-addr" required maxlength="120" placeholder="e.g. 100 Centrepointe Dr"></div>
-      <div class="field"><label for="a-name">Building name (optional)</label><input id="a-name" maxlength="80"></div>
-      <div class="field"><label for="a-floors">Floors</label><input id="a-floors" type="number" inputmode="numeric" min="1" max="60"></div>
-      <div class="field"><label for="a-units">About how many units? (optional)</label><input id="a-units" type="number" inputmode="numeric" min="1" max="2000"></div>
-      <div class="field"><span class="lbl">Elevator</span><div class="radios">
-        <label><input type="radio" name="a-elev" id="a-elev-yes" value="yes" checked> Has an elevator</label>
-        <label><input type="radio" name="a-elev" id="a-elev-no" value="no"> No elevator</label></div></div>
-      <div class="field"><label for="a-note">Note (optional)</label><textarea id="a-note" maxlength="1000"></textarea></div>
-      <button class="btn primary wide" type="submit">Add building</button>
-    </form>`;
+  $('#addbar-text').textContent = t('addbarMove');
+  if (first) $('#v-add').innerHTML = '';
+  renderAdd();
   showView('add');
   if (!isDesktop()) setSheet('open');
-  box.scrollTop = 0;
-  box.dataset.lat = latlng.lat; box.dataset.lng = latlng.lng;
-  setTimeout(() => { try { $('#a-addr').focus({ preventScroll: true }); } catch {} }, 280);
+  if (first) {
+    $('#v-add').scrollTop = 0;
+    setTimeout(() => { try { $('#a-addr').focus({ preventScroll: true }); } catch {} }, 280);
+  }
 }
 $('#v-add').addEventListener('click', e => { if (e.target.closest('[data-act="cancel"]')) { stopAdding(); showView('list'); } });
 $('#v-add').addEventListener('submit', e => {
   e.preventDefault();
-  const box = $('#v-add');
   const address = $('#a-addr').value.trim();
-  if (!address) { $('#a-addr').focus(); return; }
+  if (!address || !addLatLng) { $('#a-addr').focus(); return; }
   const floors = parseInt($('#a-floors').value, 10) || null;
   const units = parseInt($('#a-units').value, 10) || null;
+  const note = $('#a-note').value.trim();
   const id = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const doc = stamp(null, {
-    lat: +(+box.dataset.lat).toFixed(6), lng: +(+box.dataset.lng).toFixed(6), address, name: $('#a-name').value.trim(),
-    floors, units, elevator: $('#a-elev-no').checked ? 'no' : 'yes', note: $('#a-note').value.trim(),
-    noteAt: $('#a-note').value.trim() ? Date.now() : null, noteBy: S.meId || null, createdAt: Date.now(), createdBy: S.meId || null,
+    lat: +addLatLng.lat.toFixed(6), lng: +addLatLng.lng.toFixed(6), address, name: $('#a-name').value.trim(),
+    floors, units, elevator: $('#a-elev-no').checked ? 'no' : 'yes', note,
+    noteAt: note ? Date.now() : null, noteBy: S.meId || null, createdAt: Date.now(), createdBy: S.meId || null,
   });
   stopAdding();
   if (S.mode === 'shared') S.remote.custom[id] = doc; else S.local.custom[id] = doc;
   rebuildCustom();
   save('custom', id, doc);
   select(id);
-  toast('Building added.');
+  toast(t('toast.added'));
 });
 
 /* ------------------------------------------------------------------ radius control */
@@ -1119,11 +1308,24 @@ $('#radius').addEventListener('click', e => { const b = e.target.closest('button
 $('#home-btn').addEventListener('click', () => fitRadius());
 $('#key-btn').addEventListener('click', () => { const lg = $('#legend'); lg.hidden = !lg.hidden; $('#key-btn').setAttribute('aria-expanded', String(!lg.hidden)); });
 
+/* ------------------------------------------------------------------ language switch */
+function setLang(l) {
+  LANG = l; prefs.lang = l; savePrefs();
+  applyStatic();
+  drawMarkers();
+  setSheet(panel.dataset.size);
+  if (adding) $('#addbar-text').textContent = t(addLatLng ? 'addbarMove' : 'addbar');
+  if (view === 'add') renderAdd();
+  if (!$('#round-confirm').hidden) $('#round-btn').click();
+  setMode(S.mode);   // re-renders status texts, list and detail
+}
+$('#lang-btn').addEventListener('click', () => setLang(LANG === 'zh' ? 'en' : 'zh'));
+
 /* ------------------------------------------------------------------ toast */
 let toastTimer = 0;
 function toast(msg) {
-  const t = $('#toast'); t.textContent = msg; t.hidden = false;
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 2800);
+  const el = $('#toast'); el.textContent = msg; el.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 2800);
 }
 
 /* ------------------------------------------------------------------ render */
@@ -1154,14 +1356,16 @@ new ResizeObserver(() => {
 }).observe($('#map'));
 
 /* ------------------------------------------------------------------ boot */
+applyStatic();
+drawMarkers();
+$('#sync span').textContent = t('sync.pending');
 setRadius(prefs.radius, false);
 fitRadius();
 Promise.all([
   fetch('buildings.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
   fetch('basemap.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
 ]).then(([bj, mj]) => {
-  BUILDINGS = bj.buildings;
-  ITEMS = BUILDINGS.map(b => Object.assign({}, b));
+  ITEMS = bj.buildings.map(b => Object.assign({}, b));
   for (const it of ITEMS) BY_ID.set(it.id, it);
   BASE = buildBase(mj);
   base.redraw();
@@ -1170,12 +1374,9 @@ Promise.all([
   renderAll();
 }).catch(err => {
   console.error(err);
-  $('#loading').textContent = "Couldn't load the map data. Reload the page to try again.";
+  $('#loading').textContent = t('loadFail');
 });
 document.fonts && document.fonts.load('600 12px Archivo').then(() => { if (BASE) base.redraw(); }).catch(() => {});
 initStore().catch(() => setMode('local'));
 })();
 </script>
-
-</body>
-</html>
